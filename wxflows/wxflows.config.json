@@ -1,0 +1,12 @@
+{
+  "endpoint": "api/ill-gas",
+  "tools": [
+    "web_search",
+    "wikipedia",
+    "google_books",
+    "math",
+    "exchange",
+    "open_meteo_weather",
+    "news"
+  ]
+}

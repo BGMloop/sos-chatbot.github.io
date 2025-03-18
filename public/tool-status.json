@@ -1,0 +1,64 @@
+{
+  "results": {
+    "web_search": {
+      "id": "web_search",
+      "name": "Web Search",
+      "description": "Search the web for real-time information using DuckDuckGo",
+      "status": "available",
+      "message": "Tool is working correctly",
+      "lastTested": "2025-03-17T06:45:00.000Z",
+      "responseTime": 1
+    },
+    "math": {
+      "id": "math",
+      "name": "Wolfram Alpha",
+      "description": "Solve math problems using Wolfram Alpha",
+      "status": "available",
+      "message": "Tool is working correctly",
+      "lastTested": "2025-03-15T20:42:39.051Z",
+      "responseTime": 1
+    },
+    "exchange": {
+      "id": "exchange",
+      "name": "Currency Exchange",
+      "description": "Get current exchange rates",
+      "status": "available",
+      "message": "Tool is working correctly",
+      "lastTested": "2025-03-15T20:42:39.052Z",
+      "responseTime": 1
+    },
+    "open_meteo_weather": {
+      "id": "open_meteo_weather",
+      "name": "Open Meteo Weather",
+      "description": "Get detailed weather information with no API key required",
+      "status": "available",
+      "message": "Tool is working correctly",
+      "lastTested": "2025-03-15T20:42:39.053Z",
+      "responseTime": 1
+    },
+    "news": {
+      "id": "news",
+      "name": "News Search",
+      "description": "Search for news articles by topic",
+      "status": "available",
+      "message": "Tool is working correctly",
+      "lastTested": "2025-03-15T20:42:39.056Z",
+      "responseTime": 0
+    },
+    "news_headlines": {
+      "id": "news_headlines",
+      "name": "News Headlines",
+      "description": "Get top headlines by country and category",
+      "status": "available",
+      "message": "Tool is working correctly",
+      "lastTested": "2025-03-15T20:42:39.057Z",
+      "responseTime": 0
+    }
+  },
+  "summary": {
+    "total": 6,
+    "available": 6,
+    "error": 0,
+    "lastUpdated": "2025-03-17T06:45:00.000Z"
+  }
+}

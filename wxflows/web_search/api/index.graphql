@@ -1,0 +1,22 @@
+type SearchResult {
+  title: String!
+  url: String!
+  snippet: String!
+  isTopResult: Boolean
+}
+
+type SearchResponse {
+  query: String!
+  results: [SearchResult!]!
+  total_results: Int!
+  timestamp: String!
+}
+
+type Query {
+  search(
+    query: String!, 
+    region: String, 
+    time: String, 
+    num_results: Int
+  ): SearchResponse
+} 

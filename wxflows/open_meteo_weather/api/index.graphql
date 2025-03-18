@@ -1,0 +1,95 @@
+type Query {
+  openMeteoWeather(
+    location: String!
+    latitude: Float
+    longitude: Float
+    current: [String!]
+    hourly: [String!]
+    daily: [String!]
+    timezone: String
+    past_days: Int
+    forecast_days: Int
+  ): OpenMeteoResponse @rest(
+    endpoint: "https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=${current}&hourly=${hourly}&daily=${daily}"
+    configuration: "open_meteo_config"
+  )
+
+  # Geocoding endpoint to convert location names to coordinates
+  geocode(location: String!): [GeocodingResult!] @rest(
+    endpoint: "https://geocoding-api.open-meteo.com/v1/search?name=${location}&count=1&language=en&format=json"
+    resultRoot: "results"
+  )
+}
+
+# Configuration for constructing the API URL
+directive @rest(
+  endpoint: String!
+  resultRoot: String
+  configuration: String
+) on FIELD_DEFINITION
+
+type OpenMeteoResponse {
+  latitude: Float
+  longitude: Float
+  generationtime_ms: Float
+  utc_offset_seconds: Int
+  timezone: String
+  timezone_abbreviation: String
+  elevation: Float
+  current_units: WeatherUnits
+  current: CurrentWeather
+  hourly_units: WeatherUnits
+  hourly: HourlyWeather
+  daily_units: WeatherUnits
+  daily: DailyWeather
+}
+
+type WeatherUnits {
+  time: String
+  temperature_2m: String
+  relative_humidity_2m: String
+  wind_speed_10m: String
+  precipitation: String
+  rain: String
+  weather_code: String
+}
+
+type CurrentWeather {
+  time: String
+  temperature_2m: Float
+  relative_humidity_2m: Float
+  wind_speed_10m: Float
+  precipitation: Float
+  rain: Float
+  weather_code: Int
+}
+
+type HourlyWeather {
+  time: [String!]
+  temperature_2m: [Float!]
+  relative_humidity_2m: [Float!]
+  wind_speed_10m: [Float!]
+  precipitation: [Float!]
+  weather_code: [Int!]
+}
+
+type DailyWeather {
+  time: [String!]
+  temperature_2m_max: [Float!]
+  temperature_2m_min: [Float!]
+  precipitation_sum: [Float!]
+  rain_sum: [Float!]
+  weather_code: [Int!]
+}
+
+type GeocodingResult {
+  id: Int
+  name: String
+  latitude: Float
+  longitude: Float
+  country: String
+  admin1: String
+  admin2: String
+  admin3: String
+  admin4: String
+} 

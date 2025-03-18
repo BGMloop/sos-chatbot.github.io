@@ -1,0 +1,86 @@
+extend type Query {
+  math: TC_GraphQL
+    @supplies(query: "tc_tools")
+    @materializer(
+      query: "tc_graphql_tool"
+      arguments: [
+        { name: "name", const: "math" }
+        {
+          name: "description"
+          const: "Performs mathematical calculations, date and unit conversions, formula solving, etc."
+        }
+        { name: "fields", const: "wolframAlpha" }
+      ]
+    )
+  exchange: TC_GraphQL
+    @supplies(query: "tc_tools")
+    @materializer(
+      query: "tc_graphql_tool"
+      arguments: [
+        { name: "name", const: "exchange" }
+        {
+          name: "description"
+          const: "Convert currency, supports historical rates. Provide dates in the format YYYY-MM-DD"
+        }
+        { name: "fields", const: "exchangeRates" }
+      ]
+    )
+  open_meteo_weather(location: String!): OpenMeteoWeatherResponse
+  web_search(query: String!, region: String, time: String, num_results: Int): WebSearchResponse
+}
+
+type WebSearchResponse {
+  query: String!
+  results: [WebSearchResult!]!
+  total_results: Int!
+  timestamp: String!
+  error: String
+}
+
+type WebSearchResult {
+  title: String!
+  url: String!
+  snippet: String!
+  isTopResult: Boolean
+}
+
+type OpenMeteoWeatherResponse {
+  location: String
+  current: OpenMeteoCurrentWeather
+  forecast: OpenMeteoForecast
+  error: String
+}
+
+type OpenMeteoCurrentWeather {
+  temperature: Float
+  humidity: Float
+  windSpeed: Float
+  precipitation: Float
+  weatherCode: Int
+  weatherDescription: String
+  time: String
+}
+
+type OpenMeteoForecast {
+  daily: [OpenMeteoForecastDay]
+  hourly: [OpenMeteoForecastHour]
+}
+
+type OpenMeteoForecastDay {
+  date: String
+  maxTemperature: Float
+  minTemperature: Float
+  precipitationSum: Float
+  weatherCode: Int
+  weatherDescription: String
+}
+
+type OpenMeteoForecastHour {
+  time: String
+  temperature: Float
+  humidity: Float
+  windSpeed: Float
+  precipitation: Float
+  weatherCode: Int
+  weatherDescription: String
+}
