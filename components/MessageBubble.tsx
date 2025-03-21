@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { RefreshCw, Copy, Check } from "lucide-react";
 import Image from "next/image";
 import { useUser } from "@clerk/nextjs";
+import { useTheme } from "@/lib/context/theme";
 
 interface MessageBubbleProps {
   content: string;
@@ -54,6 +55,7 @@ export function MessageBubble({
 }: MessageBubbleProps) {
   const [copied, setCopied] = useState(false);
   const { user } = useUser();
+  const { fontSize, textColor, bubbleColor } = useTheme();
 
   const copyToClipboard = () => {
     if (!content) return;
@@ -87,10 +89,15 @@ export function MessageBubble({
       )}
       
       <div
+        style={{
+          fontSize: `${fontSize}px`,
+          color: isUser ? 'white' : textColor,
+          backgroundColor: isUser ? bubbleColor : 'white',
+        }}
         className={`rounded-2xl px-4 py-3 ${
           isUser
-            ? "bg-blue-600 text-white rounded-br-none"
-            : "bg-white text-gray-900 rounded-bl-none shadow-sm ring-1 ring-inset ring-gray-200"
+            ? "rounded-br-none"
+            : "rounded-bl-none shadow-sm ring-1 ring-inset ring-gray-200"
         }`}
       >
         {extractHtmlContent(content)}
@@ -162,7 +169,8 @@ export function MessageBubble({
               className="object-cover"
             />
           ) : (
-            <div className="w-full h-full bg-blue-600 flex items-center justify-center text-white">
+            <div className="w-full h-full flex items-center justify-center text-white"
+                 style={{ backgroundColor: bubbleColor }}>
               {(user?.firstName?.[0] || 'U')}
             </div>
           )}

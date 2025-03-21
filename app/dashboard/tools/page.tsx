@@ -11,6 +11,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "../../../components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { AlertCircle, CheckCircle, Clock } from "lucide-react";
+import { useUser } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
 
 // Import tool schemas from a client-safe file
 import { TOOL_SCHEMAS } from "@/lib/tool-schemas"; 
@@ -27,6 +29,23 @@ type ToolStatus = {
 };
 
 export default function ToolsTestPage() {
+  const { user, isLoaded: isUserLoaded } = useUser();
+  
+  // Show loading state while auth is loading
+  if (!isUserLoaded) {
+    return (
+      <div className="container py-10">
+        <div className="h-10 w-40 bg-gray-200 animate-pulse rounded-md mb-4"></div>
+        <div className="h-64 bg-gray-100 animate-pulse rounded-lg"></div>
+      </div>
+    );
+  }
+  
+  // Redirect if not authenticated
+  if (isUserLoaded && !user) {
+    return redirect("/");
+  }
+  
   const [selectedTool, setSelectedTool] = useState<ToolType>("math");
   const [input, setInput] = useState("");
   const [mathInput, setMathInput] = useState("2+2");
@@ -36,7 +55,7 @@ export default function ToolsTestPage() {
   const [weatherLocation, setWeatherLocation] = useState("New York");
   const [newsTopic, setNewsTopic] = useState("technology");
   const [newsCountry, setNewsCountry] = useState("us");
-  const [newsCategory, setNewsCategory] = useState("business");
+  const [newsCategory, setNewsCategory] = useState("all");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<Record<string, any> | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -219,7 +238,7 @@ export default function ToolsTestPage() {
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Categories</SelectItem>
+                    <SelectItem value="all">All Categories</SelectItem>
                     <SelectItem value="business">Business</SelectItem>
                     <SelectItem value="entertainment">Entertainment</SelectItem>
                     <SelectItem value="general">General</SelectItem>

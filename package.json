@@ -3,8 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "NODE_OPTIONS='--max_old_space_size=4096' next dev",
+    "dev:turbo": "NODE_OPTIONS='--max_old_space_size=4096' NEXT_TURBO=true next dev",
+    "dev:fast": "bash scripts/optimize-dev.sh",
     "build": "next build",
+    "build:analyze": "ANALYZE=true next build",
+    "analyze": "node scripts/analyze-bundle.js",
     "postbuild": "node scripts/schedule-tool-tests.js",
     "start": "next start",
     "lint": "next lint",
@@ -14,7 +18,8 @@
     "test-all-tools": "node lib/tool-tester.js",
     "update-tool-status": "node scripts/schedule-tool-tests.js",
     "test-groq": "node --experimental-modules scripts/test-groq.js",
-    "test-groq-chat": "node --experimental-modules scripts/test-groq-chat.js"
+    "test-groq-chat": "node --experimental-modules scripts/test-groq-chat.js",
+    "migrate-chats": "node scripts/run-chat-migration.cjs"
   },
   "dependencies": {
     "@clerk/clerk-react": "^5.23.0",
@@ -48,6 +53,7 @@
     "clsx": "^2.1.1",
     "convex": "^1.19.2",
     "critters": "^0.0.25",
+    "dotenv": "^16.4.7",
     "js-tiktoken": "^1.0.19",
     "langchain": "^0.3.19",
     "lucide-react": "^0.475.0",
@@ -60,6 +66,7 @@
     "rehype-raw": "^7.0.0",
     "remark-gfm": "^4.0.1",
     "requests": "^0.3.0",
+    "svix": "^1.62.0",
     "tailwind-merge": "^3.0.2",
     "tailwindcss-animate": "^1.0.7",
     "uuid": "^11.1.0",

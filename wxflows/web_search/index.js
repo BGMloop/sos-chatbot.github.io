@@ -93,4 +93,224 @@ export default async function webSearch({ query, region = "us-en", time = "month
       status: 'error'
     };
   }
-} 
+}
+
+// Web search tool implementation using free search APIs
+
+/**
+ * Web search tool
+ * @param {Object} params - Parameters for the web search
+ * @param {string} params.query - Search term
+ * @param {number} params.limit - Maximum number of results (optional, default 5)
+ * @returns {Object} - Result object with search results
+ */
+async function webSearchTool(params) {
+  try {
+    // Extract search parameters
+    const { query, limit = 5 } = params;
+    
+    if (!query) {
+      return {
+        error: "Missing required parameter: query",
+        status: "error"
+      };
+    }
+    
+    // Try multiple search APIs in sequence until one works
+    try {
+      // Try Google Programmable Search Engine if API key is available
+      if (process.env.GOOGLE_CSE_ID && process.env.GOOGLE_API_KEY) {
+        return await googleSearch(query, limit);
+      }
+    } catch (error) {
+      console.error("Google search failed:", error);
+      // Continue to next option
+    }
+    
+    try {
+      // Try Bing Search if API key is available
+      if (process.env.BING_SEARCH_API_KEY) {
+        return await bingSearch(query, limit);
+      }
+    } catch (error) {
+      console.error("Bing search failed:", error);
+      // Continue to next option
+    }
+    
+    // Fallback to a free search API - DuckDuckGo
+    return await duckDuckGoSearch(query, limit);
+    
+  } catch (error) {
+    console.error("Web search error:", error);
+    return {
+      error: error.message || "An error occurred while performing web search",
+      status: "error"
+    };
+  }
+}
+
+/**
+ * Search using Google Custom Search Engine
+ * @param {string} query - Search query
+ * @param {number} limit - Maximum results
+ * @returns {Object} - Search results
+ */
+async function googleSearch(query, limit) {
+  const cseId = process.env.GOOGLE_CSE_ID;
+  const apiKey = process.env.GOOGLE_API_KEY;
+  
+  const response = await fetch(
+    `https://www.googleapis.com/customsearch/v1?key=${apiKey}&cx=${cseId}&q=${encodeURIComponent(query)}&num=${Math.min(limit, 10)}`
+  );
+  
+  if (!response.ok) {
+    throw new Error(`Google search API error: ${response.statusText}`);
+  }
+  
+  const data = await response.json();
+  
+  if (!data.items || data.items.length === 0) {
+    return {
+      result: {
+        results: [],
+        query
+      },
+      status: "success"
+    };
+  }
+  
+  const results = data.items.map(item => ({
+    title: item.title,
+    link: item.link,
+    snippet: item.snippet,
+    displayLink: item.displayLink,
+    source: "google"
+  }));
+  
+  return {
+    result: {
+      results,
+      query
+    },
+    status: "success"
+  };
+}
+
+/**
+ * Search using Bing Search API
+ * @param {string} query - Search query
+ * @param {number} limit - Maximum results
+ * @returns {Object} - Search results
+ */
+async function bingSearch(query, limit) {
+  const apiKey = process.env.BING_SEARCH_API_KEY;
+  
+  const response = await fetch(
+    `https://api.bing.microsoft.com/v7.0/search?q=${encodeURIComponent(query)}&count=${Math.min(limit, 50)}`,
+    {
+      headers: {
+        'Ocp-Apim-Subscription-Key': apiKey
+      }
+    }
+  );
+  
+  if (!response.ok) {
+    throw new Error(`Bing search API error: ${response.statusText}`);
+  }
+  
+  const data = await response.json();
+  
+  if (!data.webPages || !data.webPages.value || data.webPages.value.length === 0) {
+    return {
+      result: {
+        results: [],
+        query
+      },
+      status: "success"
+    };
+  }
+  
+  const results = data.webPages.value.map(item => ({
+    title: item.name,
+    link: item.url,
+    snippet: item.snippet,
+    displayLink: new URL(item.url).hostname,
+    source: "bing"
+  }));
+  
+  return {
+    result: {
+      results,
+      query
+    },
+    status: "success"
+  };
+}
+
+/**
+ * Search using DuckDuckGo API (unofficial)
+ * @param {string} query - Search query
+ * @param {number} limit - Maximum results
+ * @returns {Object} - Search results
+ */
+async function duckDuckGoSearch(query, limit) {
+  // Use the DuckDuckGo text search API (no key required)
+  const response = await fetch(
+    `https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_html=1&skip_disambig=1`,
+    { headers: { 'User-Agent': 'Mozilla/5.0' } }
+  );
+  
+  if (!response.ok) {
+    throw new Error(`DuckDuckGo API error: ${response.statusText}`);
+  }
+  
+  const data = await response.json();
+  
+  // Combine all results
+  const results = [];
+  
+  // Add the abstract text if relevant
+  if (data.Abstract && data.AbstractURL) {
+    results.push({
+      title: data.Heading || query,
+      link: data.AbstractURL,
+      snippet: data.Abstract,
+      displayLink: new URL(data.AbstractURL).hostname,
+      source: "duckduckgo"
+    });
+  }
+  
+  // Add related topics
+  if (data.RelatedTopics && data.RelatedTopics.length) {
+    data.RelatedTopics.slice(0, limit - results.length).forEach(topic => {
+      if (topic.Result && topic.FirstURL) {
+        // Extract text from HTML
+        const titleMatch = topic.Result.match(/<a[^>]*>(.*?)<\/a>/);
+        const title = titleMatch ? titleMatch[1] : 'Related Topic';
+        
+        // Extract snippet by removing HTML tags
+        const snippet = topic.Text || topic.Result.replace(/<[^>]*>/g, '');
+        
+        results.push({
+          title,
+          link: topic.FirstURL,
+          snippet,
+          displayLink: new URL(topic.FirstURL).hostname,
+          source: "duckduckgo"
+        });
+      }
+    });
+  }
+  
+  return {
+    result: {
+      results: results.slice(0, limit),
+      query
+    },
+    status: "success"
+  };
+}
+
+// Export the default function
+module.exports = webSearchTool;
+module.exports.default = webSearchTool; 

@@ -1,0 +1,56 @@
+{
+  "app/dashboard/chat/[chatId]/ChatContainer.tsx -> ./components/MessageList": {
+    "id": "app/dashboard/chat/[chatId]/ChatContainer.tsx -> ./components/MessageList",
+    "files": [
+      "static/chunks/_app-pages-browser_app_dashboard_chat_chatId_components_MessageList_tsx.js"
+    ]
+  },
+  "app/dashboard/chat/[chatId]/ChatContainer.tsx -> @/components/NotificationSound": {
+    "id": "app/dashboard/chat/[chatId]/ChatContainer.tsx -> @/components/NotificationSound",
+    "files": [
+      "static/chunks/_app-pages-browser_components_NotificationSound_tsx-_87981.js"
+    ]
+  },
+  "app/dashboard/chat/[chatId]/page.tsx -> ./ChatContainer": {
+    "id": "app/dashboard/chat/[chatId]/page.tsx -> ./ChatContainer",
+    "files": [
+      "static/chunks/_app-pages-browser_app_dashboard_chat_chatId_ChatContainer_tsx.js"
+    ]
+  },
+  "components/Header.tsx -> @clerk/nextjs": {
+    "id": "components/Header.tsx -> @clerk/nextjs",
+    "files": [
+      "static/chunks/_app-pages-browser_node_modules_pnpm_clerk_nextjs_6_12_1_next_15_2_0__babel_core_7_26_9__play-c0d80b.js"
+    ]
+  },
+  "components/KnowledgeManager.tsx -> @/components/ui/dialog": {
+    "id": "components/KnowledgeManager.tsx -> @/components/ui/dialog",
+    "files": [
+      "static/chunks/_app-pages-browser_components_ui_dialog_tsx.js"
+    ]
+  },
+  "components/KnowledgeManager.tsx -> @/components/ui/dropdown-menu": {
+    "id": "components/KnowledgeManager.tsx -> @/components/ui/dropdown-menu",
+    "files": [
+      "static/chunks/_app-pages-browser_components_ui_dropdown-menu_tsx.js"
+    ]
+  },
+  "components/NotificationAudioWrapper.tsx -> @/components/NotificationSound": {
+    "id": "components/NotificationAudioWrapper.tsx -> @/components/NotificationSound",
+    "files": [
+      "static/chunks/_app-pages-browser_components_NotificationSound_tsx-_87980.js"
+    ]
+  },
+  "node_modules/.pnpm/@clerk+nextjs@6.12.1_next@15.2.0_@babel+core@7.26.9_@playwright+test@1.50.1_react-dom@1_b63bcb71ac30abcf23371341feae584a/node_modules/@clerk/nextjs/dist/esm/app-router/client/ClerkProvider.js -> ./keyless-creator-reader.js": {
+    "id": "node_modules/.pnpm/@clerk+nextjs@6.12.1_next@15.2.0_@babel+core@7.26.9_@playwright+test@1.50.1_react-dom@1_b63bcb71ac30abcf23371341feae584a/node_modules/@clerk/nextjs/dist/esm/app-router/client/ClerkProvider.js -> ./keyless-creator-reader.js",
+    "files": [
+      "static/chunks/_app-pages-browser_node_modules_pnpm_clerk_nextjs_6_12_1_next_15_2_0__babel_core_7_26_9__play-a876b7.js"
+    ]
+  },
+  "node_modules/.pnpm/@clerk+nextjs@6.12.1_next@15.2.0_@babel+core@7.26.9_@playwright+test@1.50.1_react-dom@1_b63bcb71ac30abcf23371341feae584a/node_modules/@clerk/nextjs/dist/esm/app-router/client/keyless-cookie-sync.js -> ../keyless-actions.js": {
+    "id": "node_modules/.pnpm/@clerk+nextjs@6.12.1_next@15.2.0_@babel+core@7.26.9_@playwright+test@1.50.1_react-dom@1_b63bcb71ac30abcf23371341feae584a/node_modules/@clerk/nextjs/dist/esm/app-router/client/keyless-cookie-sync.js -> ../keyless-actions.js",
+    "files": [
+      "static/chunks/_app-pages-browser_node_modules_pnpm_clerk_nextjs_6_12_1_next_15_2_0__babel_core_7_26_9__play-f18e58.js"
+    ]
+  }
+}

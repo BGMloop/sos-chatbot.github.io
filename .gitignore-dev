@@ -1,0 +1,14 @@
+# Standard ignores
+node_modules
+.next
+.turbo
+.cache
+*.log
+.DS_Store
+
+# Development-specific ignores
+.env.local
+*.tsbuildinfo
+next-env.d.ts
+.vercel
+.vscode/*

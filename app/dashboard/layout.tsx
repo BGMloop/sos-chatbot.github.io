@@ -1,10 +1,13 @@
 "use client";
 
-import Header from "@/components/Header";
-import { NavigationProvider } from "@/lib/context/navigation";
-import { Authenticated } from "convex/react";
-import Sidebar from "@/components/Sidebar";
+import React from "react";
+import { Header } from "@/components/Header";
+import { Sidebar } from "@/components/Sidebar";
+import { Authenticated } from "@/components/Authenticated";
 import StarsBackground from "@/components/StarsBackground";
+import ToolsExamples from "@/components/ToolsExamples";
+import ChatSettings from "@/components/ChatSettings";
+import { FloatingPanel } from "@/components/FloatingPanel";
 
 export default function DashboardLayout({
   children,
@@ -12,20 +15,30 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <NavigationProvider>
-      <div className="flex h-screen flex-col relative">
+    <Authenticated>
+      <div className="flex h-full flex-col">
+        {/* Background */}
         <StarsBackground />
-        
+
+        {/* Header */}
         <Header />
+
         <div className="flex flex-1 overflow-hidden">
-          <Authenticated>
-            <Sidebar />
-          </Authenticated>
-          <main className="flex-1 overflow-y-auto">
+          {/* Sidebar */}
+          <Sidebar />
+
+          {/* Main Content */}
+          <main className="flex-1 overflow-y-auto relative">
             {children}
+            
+            {/* Floating action panel for quick tools access */}
+            <FloatingPanel>
+              <ToolsExamples buttonOnly={true} />
+              <ChatSettings buttonOnly={true} />
+            </FloatingPanel>
           </main>
         </div>
       </div>
-    </NavigationProvider>
+    </Authenticated>
   );
 }

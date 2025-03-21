@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
+import { Doc, Id } from "./_generated/dataModel";
 
 export const createChat = mutation({
   args: {
@@ -12,10 +13,12 @@ export const createChat = mutation({
         throw new Error("Unauthorized: Please sign in to create a chat");
       }
 
+      const timestamp = Date.now();
       const chat = await ctx.db.insert("chats", {
         title: args.title,
         userId: identity.subject,
-        createdAt: Date.now(),
+        createdAt: timestamp,
+        updatedAt: timestamp,
       });
 
       console.log("✅ Chat created successfully:", chat);
@@ -111,5 +114,42 @@ export const getChat = query({
       console.error("❌ Error in getChat:", error);
       return null;
     }
+  },
+});
+
+export const updateChat = mutation({
+  args: { 
+    id: v.id("chats"),
+    title: v.optional(v.string()),
+    updatedAt: v.optional(v.number())
+  },
+  handler: async (ctx, args) => {
+    const { id, ...rest } = args;
+    
+    // Always update the updatedAt timestamp
+    const updateData = {
+      ...rest,
+      updatedAt: args.updatedAt || Date.now(),
+    };
+    
+    await ctx.db.patch(id, updateData);
+    return id;
+  },
+});
+
+export const list = query({
+  handler: async (ctx) => {
+    return await ctx.db.query("chats").collect();
+  },
+});
+
+export const update = mutation({
+  args: { 
+    id: v.id("chats"),
+    updatedAt: v.number()
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.id, { updatedAt: args.updatedAt });
+    return args.id;
   },
 });

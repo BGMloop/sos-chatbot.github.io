@@ -1,0 +1,130 @@
+{
+  "node": {
+    "7fad6fb96eaca76b2690b0d695e18dc626a30d0753": {
+      "workers": {
+        "app/dashboard/chat/[chatId]/page": {
+          "moduleId": "(rsc)/./node_modules/.pnpm/next@15.2.0_@babel+core@7.26.9_@playwright+test@1.50.1_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2FGabe%2FDocuments%2FGitHub%2Fsos-chatbot.github.io%2Fnode_modules%2F.pnpm%2F%40clerk%2Bnextjs%406.12.1_next%4015.2.0_%40babel%2Bcore%407.26.9_%40playwright%2Btest%401.50.1_react-dom%401_b63bcb71ac30abcf23371341feae584a%2Fnode_modules%2F%40clerk%2Fnextjs%2Fdist%2Fesm%2Fapp-router%2Fkeyless-actions.js%22%2C%5B%7B%22id%22%3A%227fad6fb96eaca76b2690b0d695e18dc626a30d0753%22%2C%22exportedName%22%3A%22deleteKeylessAction%22%7D%2C%7B%22id%22%3A%227fb92d7e91b1d38ac85b01784d734554fa9c4a6bda%22%2C%22exportedName%22%3A%22syncKeylessConfigAction%22%7D%2C%7B%22id%22%3A%227fe681f102e003493538b4d2fa6f584f6ede7c0dbd%22%2C%22exportedName%22%3A%22createOrReadKeylessAction%22%7D%5D%5D%5D&__client_imported__=!",
+          "async": false
+        },
+        "app/settings/page": {
+          "moduleId": "(rsc)/./node_modules/.pnpm/next@15.2.0_@babel+core@7.26.9_@playwright+test@1.50.1_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2FGabe%2FDocuments%2FGitHub%2Fsos-chatbot.github.io%2Fnode_modules%2F.pnpm%2F%40clerk%2Bnextjs%406.12.1_next%4015.2.0_%40babel%2Bcore%407.26.9_%40playwright%2Btest%401.50.1_react-dom%401_b63bcb71ac30abcf23371341feae584a%2Fnode_modules%2F%40clerk%2Fnextjs%2Fdist%2Fesm%2Fapp-router%2Fkeyless-actions.js%22%2C%5B%7B%22id%22%3A%227fad6fb96eaca76b2690b0d695e18dc626a30d0753%22%2C%22exportedName%22%3A%22deleteKeylessAction%22%7D%2C%7B%22id%22%3A%227fb92d7e91b1d38ac85b01784d734554fa9c4a6bda%22%2C%22exportedName%22%3A%22syncKeylessConfigAction%22%7D%2C%7B%22id%22%3A%227fe681f102e003493538b4d2fa6f584f6ede7c0dbd%22%2C%22exportedName%22%3A%22createOrReadKeylessAction%22%7D%5D%5D%5D&__client_imported__=!",
+          "async": false
+        },
+        "app/dashboard/page": {
+          "moduleId": "(rsc)/./node_modules/.pnpm/next@15.2.0_@babel+core@7.26.9_@playwright+test@1.50.1_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2FGabe%2FDocuments%2FGitHub%2Fsos-chatbot.github.io%2Fnode_modules%2F.pnpm%2F%40clerk%2Bnextjs%406.12.1_next%4015.2.0_%40babel%2Bcore%407.26.9_%40playwright%2Btest%401.50.1_react-dom%401_b63bcb71ac30abcf23371341feae584a%2Fnode_modules%2F%40clerk%2Fnextjs%2Fdist%2Fesm%2Fapp-router%2Fkeyless-actions.js%22%2C%5B%7B%22id%22%3A%227fad6fb96eaca76b2690b0d695e18dc626a30d0753%22%2C%22exportedName%22%3A%22deleteKeylessAction%22%7D%2C%7B%22id%22%3A%227fb92d7e91b1d38ac85b01784d734554fa9c4a6bda%22%2C%22exportedName%22%3A%22syncKeylessConfigAction%22%7D%2C%7B%22id%22%3A%227fe681f102e003493538b4d2fa6f584f6ede7c0dbd%22%2C%22exportedName%22%3A%22createOrReadKeylessAction%22%7D%5D%5D%5D&__client_imported__=!",
+          "async": false
+        },
+        "app/calories/page": {
+          "moduleId": "(rsc)/./node_modules/.pnpm/next@15.2.0_@babel+core@7.26.9_@playwright+test@1.50.1_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2FGabe%2FDocuments%2FGitHub%2Fsos-chatbot.github.io%2Fnode_modules%2F.pnpm%2F%40clerk%2Bnextjs%406.12.1_next%4015.2.0_%40babel%2Bcore%407.26.9_%40playwright%2Btest%401.50.1_react-dom%401_b63bcb71ac30abcf23371341feae584a%2Fnode_modules%2F%40clerk%2Fnextjs%2Fdist%2Fesm%2Fapp-router%2Fkeyless-actions.js%22%2C%5B%7B%22id%22%3A%227fad6fb96eaca76b2690b0d695e18dc626a30d0753%22%2C%22exportedName%22%3A%22deleteKeylessAction%22%7D%2C%7B%22id%22%3A%227fb92d7e91b1d38ac85b01784d734554fa9c4a6bda%22%2C%22exportedName%22%3A%22syncKeylessConfigAction%22%7D%2C%7B%22id%22%3A%227fe681f102e003493538b4d2fa6f584f6ede7c0dbd%22%2C%22exportedName%22%3A%22createOrReadKeylessAction%22%7D%5D%5D%5D&__client_imported__=!",
+          "async": false
+        },
+        "app/knowledge/page": {
+          "moduleId": "(rsc)/./node_modules/.pnpm/next@15.2.0_@babel+core@7.26.9_@playwright+test@1.50.1_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2FGabe%2FDocuments%2FGitHub%2Fsos-chatbot.github.io%2Fnode_modules%2F.pnpm%2F%40clerk%2Bnextjs%406.12.1_next%4015.2.0_%40babel%2Bcore%407.26.9_%40playwright%2Btest%401.50.1_react-dom%401_b63bcb71ac30abcf23371341feae584a%2Fnode_modules%2F%40clerk%2Fnextjs%2Fdist%2Fesm%2Fapp-router%2Fkeyless-actions.js%22%2C%5B%7B%22id%22%3A%227fad6fb96eaca76b2690b0d695e18dc626a30d0753%22%2C%22exportedName%22%3A%22deleteKeylessAction%22%7D%2C%7B%22id%22%3A%227fb92d7e91b1d38ac85b01784d734554fa9c4a6bda%22%2C%22exportedName%22%3A%22syncKeylessConfigAction%22%7D%2C%7B%22id%22%3A%227fe681f102e003493538b4d2fa6f584f6ede7c0dbd%22%2C%22exportedName%22%3A%22createOrReadKeylessAction%22%7D%5D%5D%5D&__client_imported__=!",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/dashboard/chat/[chatId]/page": "rsc",
+        "app/settings/page": "rsc",
+        "app/dashboard/page": "rsc",
+        "app/calories/page": "rsc",
+        "app/knowledge/page": "rsc"
+      }
+    },
+    "7fb92d7e91b1d38ac85b01784d734554fa9c4a6bda": {
+      "workers": {
+        "app/dashboard/chat/[chatId]/page": {
+          "moduleId": "(rsc)/./node_modules/.pnpm/next@15.2.0_@babel+core@7.26.9_@playwright+test@1.50.1_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2FGabe%2FDocuments%2FGitHub%2Fsos-chatbot.github.io%2Fnode_modules%2F.pnpm%2F%40clerk%2Bnextjs%406.12.1_next%4015.2.0_%40babel%2Bcore%407.26.9_%40playwright%2Btest%401.50.1_react-dom%401_b63bcb71ac30abcf23371341feae584a%2Fnode_modules%2F%40clerk%2Fnextjs%2Fdist%2Fesm%2Fapp-router%2Fkeyless-actions.js%22%2C%5B%7B%22id%22%3A%227fad6fb96eaca76b2690b0d695e18dc626a30d0753%22%2C%22exportedName%22%3A%22deleteKeylessAction%22%7D%2C%7B%22id%22%3A%227fb92d7e91b1d38ac85b01784d734554fa9c4a6bda%22%2C%22exportedName%22%3A%22syncKeylessConfigAction%22%7D%2C%7B%22id%22%3A%227fe681f102e003493538b4d2fa6f584f6ede7c0dbd%22%2C%22exportedName%22%3A%22createOrReadKeylessAction%22%7D%5D%5D%5D&__client_imported__=!",
+          "async": false
+        },
+        "app/settings/page": {
+          "moduleId": "(rsc)/./node_modules/.pnpm/next@15.2.0_@babel+core@7.26.9_@playwright+test@1.50.1_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2FGabe%2FDocuments%2FGitHub%2Fsos-chatbot.github.io%2Fnode_modules%2F.pnpm%2F%40clerk%2Bnextjs%406.12.1_next%4015.2.0_%40babel%2Bcore%407.26.9_%40playwright%2Btest%401.50.1_react-dom%401_b63bcb71ac30abcf23371341feae584a%2Fnode_modules%2F%40clerk%2Fnextjs%2Fdist%2Fesm%2Fapp-router%2Fkeyless-actions.js%22%2C%5B%7B%22id%22%3A%227fad6fb96eaca76b2690b0d695e18dc626a30d0753%22%2C%22exportedName%22%3A%22deleteKeylessAction%22%7D%2C%7B%22id%22%3A%227fb92d7e91b1d38ac85b01784d734554fa9c4a6bda%22%2C%22exportedName%22%3A%22syncKeylessConfigAction%22%7D%2C%7B%22id%22%3A%227fe681f102e003493538b4d2fa6f584f6ede7c0dbd%22%2C%22exportedName%22%3A%22createOrReadKeylessAction%22%7D%5D%5D%5D&__client_imported__=!",
+          "async": false
+        },
+        "app/dashboard/page": {
+          "moduleId": "(rsc)/./node_modules/.pnpm/next@15.2.0_@babel+core@7.26.9_@playwright+test@1.50.1_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2FGabe%2FDocuments%2FGitHub%2Fsos-chatbot.github.io%2Fnode_modules%2F.pnpm%2F%40clerk%2Bnextjs%406.12.1_next%4015.2.0_%40babel%2Bcore%407.26.9_%40playwright%2Btest%401.50.1_react-dom%401_b63bcb71ac30abcf23371341feae584a%2Fnode_modules%2F%40clerk%2Fnextjs%2Fdist%2Fesm%2Fapp-router%2Fkeyless-actions.js%22%2C%5B%7B%22id%22%3A%227fad6fb96eaca76b2690b0d695e18dc626a30d0753%22%2C%22exportedName%22%3A%22deleteKeylessAction%22%7D%2C%7B%22id%22%3A%227fb92d7e91b1d38ac85b01784d734554fa9c4a6bda%22%2C%22exportedName%22%3A%22syncKeylessConfigAction%22%7D%2C%7B%22id%22%3A%227fe681f102e003493538b4d2fa6f584f6ede7c0dbd%22%2C%22exportedName%22%3A%22createOrReadKeylessAction%22%7D%5D%5D%5D&__client_imported__=!",
+          "async": false
+        },
+        "app/calories/page": {
+          "moduleId": "(rsc)/./node_modules/.pnpm/next@15.2.0_@babel+core@7.26.9_@playwright+test@1.50.1_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2FGabe%2FDocuments%2FGitHub%2Fsos-chatbot.github.io%2Fnode_modules%2F.pnpm%2F%40clerk%2Bnextjs%406.12.1_next%4015.2.0_%40babel%2Bcore%407.26.9_%40playwright%2Btest%401.50.1_react-dom%401_b63bcb71ac30abcf23371341feae584a%2Fnode_modules%2F%40clerk%2Fnextjs%2Fdist%2Fesm%2Fapp-router%2Fkeyless-actions.js%22%2C%5B%7B%22id%22%3A%227fad6fb96eaca76b2690b0d695e18dc626a30d0753%22%2C%22exportedName%22%3A%22deleteKeylessAction%22%7D%2C%7B%22id%22%3A%227fb92d7e91b1d38ac85b01784d734554fa9c4a6bda%22%2C%22exportedName%22%3A%22syncKeylessConfigAction%22%7D%2C%7B%22id%22%3A%227fe681f102e003493538b4d2fa6f584f6ede7c0dbd%22%2C%22exportedName%22%3A%22createOrReadKeylessAction%22%7D%5D%5D%5D&__client_imported__=!",
+          "async": false
+        },
+        "app/knowledge/page": {
+          "moduleId": "(rsc)/./node_modules/.pnpm/next@15.2.0_@babel+core@7.26.9_@playwright+test@1.50.1_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2FGabe%2FDocuments%2FGitHub%2Fsos-chatbot.github.io%2Fnode_modules%2F.pnpm%2F%40clerk%2Bnextjs%406.12.1_next%4015.2.0_%40babel%2Bcore%407.26.9_%40playwright%2Btest%401.50.1_react-dom%401_b63bcb71ac30abcf23371341feae584a%2Fnode_modules%2F%40clerk%2Fnextjs%2Fdist%2Fesm%2Fapp-router%2Fkeyless-actions.js%22%2C%5B%7B%22id%22%3A%227fad6fb96eaca76b2690b0d695e18dc626a30d0753%22%2C%22exportedName%22%3A%22deleteKeylessAction%22%7D%2C%7B%22id%22%3A%227fb92d7e91b1d38ac85b01784d734554fa9c4a6bda%22%2C%22exportedName%22%3A%22syncKeylessConfigAction%22%7D%2C%7B%22id%22%3A%227fe681f102e003493538b4d2fa6f584f6ede7c0dbd%22%2C%22exportedName%22%3A%22createOrReadKeylessAction%22%7D%5D%5D%5D&__client_imported__=!",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/dashboard/chat/[chatId]/page": "rsc",
+        "app/settings/page": "rsc",
+        "app/dashboard/page": "rsc",
+        "app/calories/page": "rsc",
+        "app/knowledge/page": "rsc"
+      }
+    },
+    "7fe681f102e003493538b4d2fa6f584f6ede7c0dbd": {
+      "workers": {
+        "app/dashboard/chat/[chatId]/page": {
+          "moduleId": "(rsc)/./node_modules/.pnpm/next@15.2.0_@babel+core@7.26.9_@playwright+test@1.50.1_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2FGabe%2FDocuments%2FGitHub%2Fsos-chatbot.github.io%2Fnode_modules%2F.pnpm%2F%40clerk%2Bnextjs%406.12.1_next%4015.2.0_%40babel%2Bcore%407.26.9_%40playwright%2Btest%401.50.1_react-dom%401_b63bcb71ac30abcf23371341feae584a%2Fnode_modules%2F%40clerk%2Fnextjs%2Fdist%2Fesm%2Fapp-router%2Fkeyless-actions.js%22%2C%5B%7B%22id%22%3A%227fad6fb96eaca76b2690b0d695e18dc626a30d0753%22%2C%22exportedName%22%3A%22deleteKeylessAction%22%7D%2C%7B%22id%22%3A%227fb92d7e91b1d38ac85b01784d734554fa9c4a6bda%22%2C%22exportedName%22%3A%22syncKeylessConfigAction%22%7D%2C%7B%22id%22%3A%227fe681f102e003493538b4d2fa6f584f6ede7c0dbd%22%2C%22exportedName%22%3A%22createOrReadKeylessAction%22%7D%5D%5D%5D&__client_imported__=!",
+          "async": false
+        },
+        "app/settings/page": {
+          "moduleId": "(rsc)/./node_modules/.pnpm/next@15.2.0_@babel+core@7.26.9_@playwright+test@1.50.1_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2FGabe%2FDocuments%2FGitHub%2Fsos-chatbot.github.io%2Fnode_modules%2F.pnpm%2F%40clerk%2Bnextjs%406.12.1_next%4015.2.0_%40babel%2Bcore%407.26.9_%40playwright%2Btest%401.50.1_react-dom%401_b63bcb71ac30abcf23371341feae584a%2Fnode_modules%2F%40clerk%2Fnextjs%2Fdist%2Fesm%2Fapp-router%2Fkeyless-actions.js%22%2C%5B%7B%22id%22%3A%227fad6fb96eaca76b2690b0d695e18dc626a30d0753%22%2C%22exportedName%22%3A%22deleteKeylessAction%22%7D%2C%7B%22id%22%3A%227fb92d7e91b1d38ac85b01784d734554fa9c4a6bda%22%2C%22exportedName%22%3A%22syncKeylessConfigAction%22%7D%2C%7B%22id%22%3A%227fe681f102e003493538b4d2fa6f584f6ede7c0dbd%22%2C%22exportedName%22%3A%22createOrReadKeylessAction%22%7D%5D%5D%5D&__client_imported__=!",
+          "async": false
+        },
+        "app/dashboard/page": {
+          "moduleId": "(rsc)/./node_modules/.pnpm/next@15.2.0_@babel+core@7.26.9_@playwright+test@1.50.1_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2FGabe%2FDocuments%2FGitHub%2Fsos-chatbot.github.io%2Fnode_modules%2F.pnpm%2F%40clerk%2Bnextjs%406.12.1_next%4015.2.0_%40babel%2Bcore%407.26.9_%40playwright%2Btest%401.50.1_react-dom%401_b63bcb71ac30abcf23371341feae584a%2Fnode_modules%2F%40clerk%2Fnextjs%2Fdist%2Fesm%2Fapp-router%2Fkeyless-actions.js%22%2C%5B%7B%22id%22%3A%227fad6fb96eaca76b2690b0d695e18dc626a30d0753%22%2C%22exportedName%22%3A%22deleteKeylessAction%22%7D%2C%7B%22id%22%3A%227fb92d7e91b1d38ac85b01784d734554fa9c4a6bda%22%2C%22exportedName%22%3A%22syncKeylessConfigAction%22%7D%2C%7B%22id%22%3A%227fe681f102e003493538b4d2fa6f584f6ede7c0dbd%22%2C%22exportedName%22%3A%22createOrReadKeylessAction%22%7D%5D%5D%5D&__client_imported__=!",
+          "async": false
+        },
+        "app/calories/page": {
+          "moduleId": "(rsc)/./node_modules/.pnpm/next@15.2.0_@babel+core@7.26.9_@playwright+test@1.50.1_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2FGabe%2FDocuments%2FGitHub%2Fsos-chatbot.github.io%2Fnode_modules%2F.pnpm%2F%40clerk%2Bnextjs%406.12.1_next%4015.2.0_%40babel%2Bcore%407.26.9_%40playwright%2Btest%401.50.1_react-dom%401_b63bcb71ac30abcf23371341feae584a%2Fnode_modules%2F%40clerk%2Fnextjs%2Fdist%2Fesm%2Fapp-router%2Fkeyless-actions.js%22%2C%5B%7B%22id%22%3A%227fad6fb96eaca76b2690b0d695e18dc626a30d0753%22%2C%22exportedName%22%3A%22deleteKeylessAction%22%7D%2C%7B%22id%22%3A%227fb92d7e91b1d38ac85b01784d734554fa9c4a6bda%22%2C%22exportedName%22%3A%22syncKeylessConfigAction%22%7D%2C%7B%22id%22%3A%227fe681f102e003493538b4d2fa6f584f6ede7c0dbd%22%2C%22exportedName%22%3A%22createOrReadKeylessAction%22%7D%5D%5D%5D&__client_imported__=!",
+          "async": false
+        },
+        "app/knowledge/page": {
+          "moduleId": "(rsc)/./node_modules/.pnpm/next@15.2.0_@babel+core@7.26.9_@playwright+test@1.50.1_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2FGabe%2FDocuments%2FGitHub%2Fsos-chatbot.github.io%2Fnode_modules%2F.pnpm%2F%40clerk%2Bnextjs%406.12.1_next%4015.2.0_%40babel%2Bcore%407.26.9_%40playwright%2Btest%401.50.1_react-dom%401_b63bcb71ac30abcf23371341feae584a%2Fnode_modules%2F%40clerk%2Fnextjs%2Fdist%2Fesm%2Fapp-router%2Fkeyless-actions.js%22%2C%5B%7B%22id%22%3A%227fad6fb96eaca76b2690b0d695e18dc626a30d0753%22%2C%22exportedName%22%3A%22deleteKeylessAction%22%7D%2C%7B%22id%22%3A%227fb92d7e91b1d38ac85b01784d734554fa9c4a6bda%22%2C%22exportedName%22%3A%22syncKeylessConfigAction%22%7D%2C%7B%22id%22%3A%227fe681f102e003493538b4d2fa6f584f6ede7c0dbd%22%2C%22exportedName%22%3A%22createOrReadKeylessAction%22%7D%5D%5D%5D&__client_imported__=!",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/dashboard/chat/[chatId]/page": "rsc",
+        "app/settings/page": "rsc",
+        "app/dashboard/page": "rsc",
+        "app/calories/page": "rsc",
+        "app/knowledge/page": "rsc"
+      }
+    },
+    "7f7046280b51ed54dc71bb2e71a9782057fa9da3da": {
+      "workers": {
+        "app/dashboard/chat/[chatId]/page": {
+          "moduleId": "(action-browser)/./node_modules/.pnpm/next@15.2.0_@babel+core@7.26.9_@playwright+test@1.50.1_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2FGabe%2FDocuments%2FGitHub%2Fsos-chatbot.github.io%2Fnode_modules%2F.pnpm%2F%40clerk%2Bnextjs%406.12.1_next%4015.2.0_%40babel%2Bcore%407.26.9_%40playwright%2Btest%401.50.1_react-dom%401_b63bcb71ac30abcf23371341feae584a%2Fnode_modules%2F%40clerk%2Fnextjs%2Fdist%2Fesm%2Fapp-router%2Fserver-actions.js%22%2C%5B%7B%22id%22%3A%227f7046280b51ed54dc71bb2e71a9782057fa9da3da%22%2C%22exportedName%22%3A%22invalidateCacheAction%22%7D%5D%5D%5D&__client_imported__=true!",
+          "async": false
+        },
+        "app/settings/page": {
+          "moduleId": "(action-browser)/./node_modules/.pnpm/next@15.2.0_@babel+core@7.26.9_@playwright+test@1.50.1_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2FGabe%2FDocuments%2FGitHub%2Fsos-chatbot.github.io%2Fnode_modules%2F.pnpm%2F%40clerk%2Bnextjs%406.12.1_next%4015.2.0_%40babel%2Bcore%407.26.9_%40playwright%2Btest%401.50.1_react-dom%401_b63bcb71ac30abcf23371341feae584a%2Fnode_modules%2F%40clerk%2Fnextjs%2Fdist%2Fesm%2Fapp-router%2Fserver-actions.js%22%2C%5B%7B%22id%22%3A%227f7046280b51ed54dc71bb2e71a9782057fa9da3da%22%2C%22exportedName%22%3A%22invalidateCacheAction%22%7D%5D%5D%5D&__client_imported__=true!",
+          "async": false
+        },
+        "app/dashboard/page": {
+          "moduleId": "(action-browser)/./node_modules/.pnpm/next@15.2.0_@babel+core@7.26.9_@playwright+test@1.50.1_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2FGabe%2FDocuments%2FGitHub%2Fsos-chatbot.github.io%2Fnode_modules%2F.pnpm%2F%40clerk%2Bnextjs%406.12.1_next%4015.2.0_%40babel%2Bcore%407.26.9_%40playwright%2Btest%401.50.1_react-dom%401_b63bcb71ac30abcf23371341feae584a%2Fnode_modules%2F%40clerk%2Fnextjs%2Fdist%2Fesm%2Fapp-router%2Fserver-actions.js%22%2C%5B%7B%22id%22%3A%227f7046280b51ed54dc71bb2e71a9782057fa9da3da%22%2C%22exportedName%22%3A%22invalidateCacheAction%22%7D%5D%5D%5D&__client_imported__=true!",
+          "async": false
+        },
+        "app/calories/page": {
+          "moduleId": "(action-browser)/./node_modules/.pnpm/next@15.2.0_@babel+core@7.26.9_@playwright+test@1.50.1_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2FGabe%2FDocuments%2FGitHub%2Fsos-chatbot.github.io%2Fnode_modules%2F.pnpm%2F%40clerk%2Bnextjs%406.12.1_next%4015.2.0_%40babel%2Bcore%407.26.9_%40playwright%2Btest%401.50.1_react-dom%401_b63bcb71ac30abcf23371341feae584a%2Fnode_modules%2F%40clerk%2Fnextjs%2Fdist%2Fesm%2Fapp-router%2Fserver-actions.js%22%2C%5B%7B%22id%22%3A%227f7046280b51ed54dc71bb2e71a9782057fa9da3da%22%2C%22exportedName%22%3A%22invalidateCacheAction%22%7D%5D%5D%5D&__client_imported__=true!",
+          "async": false
+        },
+        "app/knowledge/page": {
+          "moduleId": "(action-browser)/./node_modules/.pnpm/next@15.2.0_@babel+core@7.26.9_@playwright+test@1.50.1_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2FGabe%2FDocuments%2FGitHub%2Fsos-chatbot.github.io%2Fnode_modules%2F.pnpm%2F%40clerk%2Bnextjs%406.12.1_next%4015.2.0_%40babel%2Bcore%407.26.9_%40playwright%2Btest%401.50.1_react-dom%401_b63bcb71ac30abcf23371341feae584a%2Fnode_modules%2F%40clerk%2Fnextjs%2Fdist%2Fesm%2Fapp-router%2Fserver-actions.js%22%2C%5B%7B%22id%22%3A%227f7046280b51ed54dc71bb2e71a9782057fa9da3da%22%2C%22exportedName%22%3A%22invalidateCacheAction%22%7D%5D%5D%5D&__client_imported__=true!",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/dashboard/chat/[chatId]/page": "action-browser",
+        "app/settings/page": "action-browser",
+        "app/dashboard/page": "action-browser",
+        "app/calories/page": "action-browser",
+        "app/knowledge/page": "action-browser"
+      }
+    }
+  },
+  "edge": {},
+  "encryptionKey": "2XhaynkXyxz+e/2k3jjtgIdiNjryW1tXxzT7Y9Gi3OM="
+}

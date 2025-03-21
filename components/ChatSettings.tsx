@@ -1,125 +1,249 @@
 'use client';
 
-import { useState } from 'react';
-import { Settings, Moon, Sun, Volume2 } from 'lucide-react';
-import VolumeControl from './VolumeControl';
+import React, { useState } from 'react';
+import { 
+  Settings, Moon, Sun, PanelLeft, Type, ChevronLeft, 
+  ZoomIn, ZoomOut, Palette, MessageSquare
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Switch } from '@/components/ui/switch';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { useTheme } from '@/lib/context/theme';
+import { useNavigation } from '@/lib/context/navigation';
+import Image from "next/image";
 
 interface ChatSettingsProps {
-  className?: string;
+  buttonOnly?: boolean; // If true, only show the button without the floating indicator
 }
 
-export function ChatSettings({ className = '' }: ChatSettingsProps) {
+export default function ChatSettings({ buttonOnly = false }: ChatSettingsProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
-  const [soundsEnabled, setSoundsEnabled] = useState(true);
-  const [fontSize, setFontSize] = useState('medium');
-  const [showVolumeControl, setShowVolumeControl] = useState(false);
-  
-  // Toggle dark mode
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-    // Actual implementation would be here
-  };
-  
-  // Toggle notification sounds
-  const toggleSounds = () => {
-    setSoundsEnabled(!soundsEnabled);
-    // Actual implementation would be here
-  };
-  
-  return (
-    <div className={`chat-settings relative ${className}`}>
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:text-accent-foreground h-10 w-10 hover:bg-gray-100 dark:hover:bg-gray-800"
-        aria-label="Chat Settings"
-      >
-        <Settings className="h-5 w-5" />
-      </button>
-      
-      {isOpen && (
-        <div className="settings-panel absolute right-0 top-full mt-2 bg-white dark:bg-gray-900 p-4 rounded-lg shadow-lg border border-gray-200 dark:border-gray-800 w-80 z-10">
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200">Chat Settings</h3>
-            <p className="text-xs text-gray-500 dark:text-gray-400">Customize your chat experience.</p>
+  const { isDarkMode, setDarkMode, fontSize, setFontSize, textColor, setTextColor, bubbleColor, setBubbleColor } = useTheme();
+  const { isSidebarOpen, toggleSidebar } = useNavigation();
+
+  // Color options
+  const colorOptions = [
+    { name: 'Blue', value: '#2563eb' },
+    { name: 'Purple', value: '#8b5cf6' },
+    { name: 'Green', value: '#22c55e' },
+    { name: 'Red', value: '#ef4444' },
+    { name: 'Orange', value: '#f97316' },
+  ];
+
+  // Text color options
+  const textColorOptions = [
+    { name: 'Black', value: '#000000' },
+    { name: 'Dark Gray', value: '#4b5563' },
+    { name: 'Navy', value: '#1e3a8a' },
+    { name: 'Dark Green', value: '#166534' },
+    { name: 'Dark Purple', value: '#5b21b6' },
+  ];
+
+  // Preview component for the chat appearance
+  const AppearancePreview = () => (
+    <div className="mt-4 p-3 border rounded-lg overflow-hidden">
+      <p className="text-xs mb-2 text-muted-foreground">Preview:</p>
+      <div className="flex flex-col space-y-2">
+        {/* Bot message */}
+        <div className="flex items-start">
+          <div className="w-6 h-6 rounded-full overflow-hidden flex-shrink-0 mr-2">
+            <Image
+              src="/logo/logo.png"
+              alt="Bot"
+              width={24}
+              height={24}
+              className="object-cover"
+            />
           </div>
-          
-          <div className="space-y-6">
-            {/* Dark Mode */}
-            <div className="setting-item">
-              <div className="flex justify-between items-center mb-1">
-                <div className="flex items-center gap-2">
-                  {darkMode ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
-                  <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300">Dark Mode</h4>
-                </div>
-                <button 
-                  onClick={toggleDarkMode}
-                  className="relative inline-flex h-6 w-11 items-center rounded-full bg-gray-200 dark:bg-gray-700" 
-                >
-                  <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition ${darkMode ? 'translate-x-6' : 'translate-x-1'}`} />
-                </button>
-              </div>
-              <p className="text-xs text-gray-500 dark:text-gray-400">Toggle dark mode</p>
-            </div>
-            
-            {/* Notification Sounds */}
-            <div className="setting-item">
-              <div className="flex justify-between items-center mb-1">
-                <div className="flex items-center gap-2">
-                  <Volume2 className="h-4 w-4" />
-                  <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300">Notification Sounds</h4>
-                </div>
-                <div className="flex items-center gap-2">
-                  <button 
-                    onClick={toggleSounds}
-                    className="relative inline-flex h-6 w-11 items-center rounded-full bg-gray-200 dark:bg-gray-700" 
-                  >
-                    <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition ${soundsEnabled ? 'translate-x-6' : 'translate-x-1'}`} />
-                  </button>
-                  <button 
-                    onClick={() => setShowVolumeControl(!showVolumeControl)}
-                    className="text-xs text-blue-600 dark:text-blue-400 hover:underline"
-                  >
-                    {showVolumeControl ? 'Hide' : 'Volume'}
-                  </button>
-                </div>
-              </div>
-              <p className="text-xs text-gray-500 dark:text-gray-400">Toggle sounds</p>
-              
-              {showVolumeControl && (
-                <div className="mt-2 pl-6 pt-2 border-t border-gray-100 dark:border-gray-800">
-                  <VolumeControl className="w-full" />
-                </div>
-              )}
-            </div>
-            
-            {/* Font Size */}
-            <div className="setting-item">
-              <h4 className="text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Font Size</h4>
-              <div className="flex items-center justify-between">
-                <button 
-                  onClick={() => setFontSize('small')}
-                  className={`px-3 py-1 text-xs rounded ${fontSize === 'small' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' : 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-400'}`}
-                >
-                  Small
-                </button>
-                <button 
-                  onClick={() => setFontSize('medium')}
-                  className={`px-3 py-1 text-sm rounded ${fontSize === 'medium' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' : 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-400'}`}
-                >
-                  Medium
-                </button>
-                <button 
-                  onClick={() => setFontSize('large')}
-                  className={`px-3 py-1 text-base rounded ${fontSize === 'large' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' : 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-400'}`}
-                >
-                  Large
-                </button>
-              </div>
-            </div>
+          <div 
+            className="rounded-lg px-3 py-2 bg-white shadow-sm ring-1 ring-inset ring-gray-200 rounded-tl-none"
+            style={{ 
+              fontSize: `${fontSize}px`,
+              color: textColor
+            }}
+          >
+            Hello! How can I help you today?
           </div>
         </div>
-      )}
+        
+        {/* User message */}
+        <div className="flex items-start justify-end">
+          <div 
+            className="rounded-lg px-3 py-2 rounded-tr-none"
+            style={{ 
+              backgroundColor: bubbleColor,
+              fontSize: `${fontSize}px`,
+              color: 'white'
+            }}
+          >
+            I have a question about my account.
+          </div>
+          <div className="w-6 h-6 rounded-full overflow-hidden flex-shrink-0 ml-2 bg-blue-600 flex items-center justify-center text-white text-xs">
+            U
+          </div>
+        </div>
+      </div>
     </div>
+  );
+  
+  return (
+    <>
+      <div className="relative">
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          onClick={() => setIsOpen(true)}
+          className={`rounded-full ${!buttonOnly ? 'hover:bg-accent hover:text-accent-foreground' : ''}`} 
+          title="Chat Settings"
+      >
+        <Settings className="h-5 w-5" />
+        </Button>
+        
+        {!buttonOnly && (
+          <span className="absolute -top-1 -right-1 flex h-3 w-3">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
+          </span>
+        )}
+          </div>
+
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Chat Settings</DialogTitle>
+          </DialogHeader>
+          
+          <Tabs defaultValue="appearance" className="w-full">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="appearance">Appearance</TabsTrigger>
+              <TabsTrigger value="layout">Layout</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="appearance" className="space-y-4 mt-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  {isDarkMode ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
+                  <span>Dark Mode</span>
+                </div>
+                <Switch 
+                  checked={isDarkMode} 
+                  onCheckedChange={setDarkMode} 
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <Type className="h-4 w-4" />
+                    <span>Font Size: {fontSize}px</span>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Button 
+                    variant="outline" 
+                    size="icon" 
+                    onClick={() => setFontSize(Math.max(12, fontSize - 1))}
+                    disabled={fontSize <= 12}
+                  >
+                    <ZoomOut className="h-4 w-4" />
+                  </Button>
+                  <div className="flex-1 h-2 bg-secondary rounded-full">
+                    <div 
+                      className="h-2 bg-primary rounded-full" 
+                      style={{ width: `${((fontSize - 12) / 12) * 100}%` }}
+                    />
+                  </div>
+                  <Button 
+                    variant="outline" 
+                    size="icon" 
+                    onClick={() => setFontSize(Math.min(24, fontSize + 1))}
+                    disabled={fontSize >= 24}
+                  >
+                    <ZoomIn className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+              
+              {/* Text color picker */}
+              <div className="space-y-2">
+                <div className="flex items-center space-x-2">
+                  <Type className="h-4 w-4" />
+                  <span>Text Color</span>
+                </div>
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {textColorOptions.map((color) => (
+                    <button
+                      key={color.value}
+                      className={`w-8 h-8 rounded-full border-2 ${
+                        textColor === color.value ? 'border-black dark:border-white' : 'border-transparent'
+                      }`}
+                      style={{ backgroundColor: color.value }}
+                      onClick={() => setTextColor(color.value)}
+                      title={color.name}
+                    />
+                  ))}
+                </div>
+              </div>
+              
+              {/* Message bubble color picker */}
+              <div className="space-y-2">
+                <div className="flex items-center space-x-2">
+                  <MessageSquare className="h-4 w-4" />
+                  <span>Bubble Color</span>
+                </div>
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {colorOptions.map((color) => (
+                    <button
+                      key={color.value}
+                      className={`w-8 h-8 rounded-full border-2 ${
+                        bubbleColor === color.value ? 'border-black dark:border-white' : 'border-transparent'
+                      }`}
+                      style={{ backgroundColor: color.value }}
+                      onClick={() => setBubbleColor(color.value)}
+                      title={color.name}
+                    />
+                  ))}
+                </div>
+              </div>
+              
+              {/* Preview */}
+              <AppearancePreview />
+            </TabsContent>
+            
+            <TabsContent value="layout" className="space-y-4 mt-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <PanelLeft className="h-4 w-4" />
+                  <span>Show Sidebar</span>
+                </div>
+                <Switch 
+                  checked={isSidebarOpen} 
+                  onCheckedChange={toggleSidebar} 
+                />
+              </div>
+            </TabsContent>
+          </Tabs>
+          
+          <div className="flex justify-between mt-4">
+            <Button variant="outline" onClick={() => setIsOpen(false)}>
+              <ChevronLeft className="h-4 w-4 mr-2" />
+              Close
+            </Button>
+            <Button onClick={() => {
+              // Reset all settings to defaults
+              const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+              setDarkMode(systemPrefersDark);
+              setFontSize(16);
+              setTextColor('#000000');
+              setBubbleColor('#2563eb');
+              toggleSidebar(true);
+            }}>
+              Reset to Defaults
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 } 

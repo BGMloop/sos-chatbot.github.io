@@ -9,6 +9,13 @@ import { MessageSquarePlus, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import TimeAgo from "react-timeago";
 
+// Function to truncate text to a specific number of words
+const truncateToWords = (text: string, wordCount: number) => {
+  const words = text.split(' ');
+  if (words.length <= wordCount) return text;
+  return words.slice(0, wordCount).join(' ') + '...';
+};
+
 function ChatRow({
   chat,
   onDelete,
@@ -50,6 +57,13 @@ function ChatRow({
     }
   };
 
+  // Get the message content and truncate it
+  const messageContent = lastMessage 
+    ? `${lastMessage.role === "user" ? "You: " : "AI: "}${lastMessage.content.replace(/\\n/g, "\n")}`
+    : "New conversation";
+    
+  const truncatedMessage = truncateToWords(messageContent, 4);
+
   return (
     <div 
       role="button"
@@ -57,13 +71,13 @@ function ChatRow({
       onClick={handleClick}
       onKeyDown={handleKeyDown}
       className={cn(
-        "group/item relative flex min-h-[60px] w-full items-center justify-between gap-3 rounded-xl p-3 transition-all duration-200 hover:bg-gradient-to-r hover:from-indigo-50/80 hover:to-gray-50/80",
+        "group relative flex min-h-[60px] w-full items-center gap-3 rounded-xl p-3 transition-all duration-200 hover:bg-gradient-to-r hover:from-indigo-50/80 hover:to-gray-50/80",
         "cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2",
         isActive && "bg-gradient-to-r from-indigo-50 to-gray-50 shadow-sm",
         !isActive && "text-gray-600 hover:text-gray-900"
       )}
     >
-      <div className="flex w-full items-center gap-3 overflow-hidden">
+      <div className="flex items-center gap-2">
         <div className={cn(
           "flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-all duration-200",
           isActive ? "bg-gradient-to-r from-indigo-600 to-black" : "bg-gradient-to-r from-indigo-600/10 to-black/10"
@@ -74,41 +88,38 @@ function ChatRow({
           )} />
         </div>
         
-        <div className="min-w-0 flex-1">
-          <div className="flex items-center justify-between gap-2">
-            <p className="truncate text-sm font-medium">
-              {lastMessage ? (
-                <>
-                  {lastMessage.role === "user" ? "You: " : "AI: "}
-                  {lastMessage.content.replace(/\\n/g, "\n")}
-                </>
-              ) : (
-                "New conversation"
-              )}
-            </p>
-            {lastMessage && (
-              <span className="hidden text-xs text-gray-400 group-hover:block">
-                <TimeAgo date={lastMessage.createdAt} />
-              </span>
-            )}
-          </div>
-        </div>
+        <button
+          type="button"
+          onClick={handleDelete}
+          onKeyDown={handleDeleteKeyDown}
+          className={cn(
+            "relative flex h-7 w-7 shrink-0 items-center justify-center rounded-full",
+            "opacity-0 group-hover:opacity-100 transition-opacity duration-200",
+            "focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2",
+            "hover:bg-red-50"
+          )}
+          aria-label="Delete chat"
+        >
+          <Trash2 className="h-4 w-4 text-gray-400 hover:text-red-500" />
+        </button>
       </div>
 
-      <div
-        role="button"
-        tabIndex={0}
-        onClick={handleDelete}
-        onKeyDown={handleDeleteKeyDown}
-        className={cn(
-          "group/delete relative ml-2 flex h-8 w-8 shrink-0 items-center justify-center rounded-full",
-          "opacity-0 transition-all duration-200 group-hover:opacity-100",
-          "focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2",
-          "hover:bg-red-50"
+      <div className="min-w-0 flex-1 overflow-hidden">
+        <div className="flex items-center justify-between gap-2">
+          <p className="truncate text-sm font-medium" title={messageContent}>
+            {truncatedMessage}
+          </p>
+          {lastMessage && (
+            <span className="text-xs text-gray-400 whitespace-nowrap">
+              <TimeAgo date={lastMessage.createdAt} />
+            </span>
+          )}
+        </div>
+        {chat.updatedAt && (
+          <p className="text-xs text-gray-400 truncate">
+            Last activity: <TimeAgo date={chat.updatedAt} />
+          </p>
         )}
-        aria-label="Delete chat"
-      >
-        <Trash2 className="h-4 w-4 text-gray-400 transition-colors group-hover/delete:text-red-500" />
       </div>
     </div>
   );

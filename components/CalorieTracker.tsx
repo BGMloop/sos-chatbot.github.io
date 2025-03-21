@@ -20,6 +20,12 @@ interface CalorieAnalysisResult {
   }>;
   totalCalories: number;
   analysis: string;
+  mealName?: string;
+  nutritionFacts?: {
+    protein: number;
+    carbs: number;
+    fat: number;
+  };
 }
 
 export default function CalorieTracker() {
@@ -29,9 +35,60 @@ export default function CalorieTracker() {
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<CalorieAnalysisResult | null>(null);
   const [notes, setNotes] = useState("");
+  const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
+  const dropZoneRef = useRef<HTMLDivElement>(null);
   
+  // Handle drag events
+  const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+  
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+  
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!isDragging) {
+      setIsDragging(true);
+    }
+  };
+  
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+    
+    const files = e.dataTransfer.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      
+      // Check if the file is an image
+      if (file.type.match('image.*')) {
+        setImageFile(file);
+        
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setSelectedImage(reader.result as string);
+        };
+        reader.readAsDataURL(file);
+        
+        // Reset any previous results
+        setResult(null);
+        setError(null);
+      } else {
+        setError("Please upload an image file (JPEG, PNG, etc.)");
+      }
+    }
+  };
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -119,24 +176,150 @@ export default function CalorieTracker() {
     
     const foodItems: Array<{name: string; quantity: string; calories: number; protein?: number; carbs?: number; fat?: number}> = [];
     
-    // Try to find food items and calories
-    const itemRegex = /(\d+)\s*calories/gi;
-    const matches = aiText.match(itemRegex) || [];
-    
-    // Extract total calories (look for phrases like "total: X calories" or "total calories: X")
+    // Extract total calories - handle both specific numbers and ranges
     let totalCalories = 0;
-    const totalCalorieRegex = /total(?:\s*calories)?(?:\s*:)?\s*(\d+)/i;
+    
+    // First, try to find explicit "Total calories: X" or similar
+    const totalCalorieRegex = /total(?:\s*(?:estimated|approximate))?(?:\s*calories)(?:\s*:)?\s*(\d+(?:\.\d+)?)/i;
     const totalMatch = aiText.match(totalCalorieRegex);
+    
     if (totalMatch && totalMatch[1]) {
       totalCalories = parseInt(totalMatch[1], 10);
+    } else {
+      // Try to find calorie ranges and take the average or the specific number
+      const calorieRangeRegex = /(\d+)(?:\s*to\s*|\s*-\s*)(\d+)(?:\s*calories)/i;
+      const rangeMatch = aiText.match(calorieRangeRegex);
+      
+      if (rangeMatch && rangeMatch[1] && rangeMatch[2]) {
+        const min = parseInt(rangeMatch[1], 10);
+        const max = parseInt(rangeMatch[2], 10);
+        totalCalories = Math.round((min + max) / 2); // Use the average of the range
+      } else {
+        // Last attempt - look for any number followed by "calories" 
+        const simpleCalorieRegex = /(\d+)(?:\s*calories)/i;
+        const simpleMatch = aiText.match(simpleCalorieRegex);
+        
+        if (simpleMatch && simpleMatch[1]) {
+          totalCalories = parseInt(simpleMatch[1], 10);
+        }
+      }
+    }
+    
+    // Extract meal name - try to find a title or name for the meal
+    let mealName = "Food Analysis";
+    const mealNameRegex = /(meal|dish|food item|breakfast|lunch|dinner|snack)(?:\s*name)?(?:\s*:)?\s*([^\n.]+)/i;
+    const mealNameMatch = aiText.match(mealNameRegex);
+    if (mealNameMatch && mealNameMatch[2]) {
+      mealName = mealNameMatch[2].trim();
+    }
+    
+    // Extract macronutrient data (protein, carbs, fat)
+    let protein = 0, carbs = 0, fat = 0;
+    
+    // Look for protein with more flexible patterns
+    const proteinRegex = /protein(?:\s*:)?\s*(?:approximately|about|around|~)?\s*(\d+(?:\.\d+)?)\s*g/i;
+    const proteinMatch = aiText.match(proteinRegex);
+    if (proteinMatch && proteinMatch[1]) {
+      protein = parseFloat(proteinMatch[1]);
+    }
+    
+    // Look for carbs/carbohydrates with more flexible patterns
+    const carbsRegex = /carb(?:ohydrate)?s?(?:\s*:)?\s*(?:approximately|about|around|~)?\s*(\d+(?:\.\d+)?)\s*g/i;
+    const carbsMatch = aiText.match(carbsRegex);
+    if (carbsMatch && carbsMatch[1]) {
+      carbs = parseFloat(carbsMatch[1]);
+    }
+    
+    // Look for fat with more flexible patterns
+    const fatRegex = /fat(?:s)?(?:\s*:)?\s*(?:approximately|about|around|~)?\s*(\d+(?:\.\d+)?)\s*g/i;
+    const fatMatch = aiText.match(fatRegex);
+    if (fatMatch && fatMatch[1]) {
+      fat = parseFloat(fatMatch[1]);
+    }
+    
+    // For demo purposes, let's generate some plausible values if we don't have them
+    if (protein === 0 && carbs === 0 && fat === 0 && totalCalories > 0) {
+      // Rough approximation: 15% protein, 55% carbs, 30% fat
+      protein = Math.round((totalCalories * 0.15) / 4); // 4 cal per gram of protein
+      carbs = Math.round((totalCalories * 0.55) / 4);   // 4 cal per gram of carbs
+      fat = Math.round((totalCalories * 0.30) / 9);     // 9 cal per gram of fat
     }
     
     // If we can't find structured data, we'll just use the raw text
     return {
       foodItems,
       totalCalories: totalCalories || 0,
-      analysis: aiText
+      analysis: aiText,
+      mealName,
+      nutritionFacts: {
+        protein,
+        carbs,
+        fat
+      }
     };
+  };
+  
+  // Helper function to render circular progress indicators for macronutrients
+  const NutrientCircle = ({ 
+    value, 
+    label, 
+    color, 
+    unit = "g" 
+  }: { 
+    value: number; 
+    label: string; 
+    color: string;
+    unit?: string;
+  }) => {
+    // Calculate the stroke-dasharray and stroke-dashoffset
+    const radius = 40;
+    const circumference = 2 * Math.PI * radius;
+    
+    // Adjust the calculation to make the circle more filled based on value
+    // This is for visual appearance only - values don't need to be percentage-based
+    let percentage = value;
+    if (label === "Carb") percentage = Math.min(100, value * 1.5);
+    if (label === "Protein") percentage = Math.min(100, value * 2);
+    if (label === "Fat") percentage = Math.min(100, value * 3);
+    
+    const strokeDashoffset = circumference - (percentage / 100) * circumference;
+    
+    return (
+      <div className="flex flex-col items-center">
+        <div className="relative w-28 h-28">
+          {/* Background circle */}
+          <svg className="w-full h-full" viewBox="0 0 100 100">
+            <circle 
+              cx="50" 
+              cy="50" 
+              r={radius} 
+              fill="transparent" 
+              stroke="#e5e7eb" 
+              strokeWidth="8"
+            />
+            {/* Foreground circle */}
+            <circle 
+              cx="50" 
+              cy="50" 
+              r={radius} 
+              fill="transparent" 
+              stroke={color} 
+              strokeWidth="8" 
+              strokeDasharray={circumference} 
+              strokeDashoffset={strokeDashoffset}
+              strokeLinecap="round"
+              transform="rotate(-90 50 50)"
+            />
+          </svg>
+          {/* Center text */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center">
+            <span className="text-2xl font-bold">{value}</span>
+            <span className="text-xs text-gray-500">{unit}</span>
+          </div>
+        </div>
+        <span className="mt-2 text-sm font-medium">{label}</span>
+      </div>
+    );
   };
   
   return (
@@ -151,7 +334,14 @@ export default function CalorieTracker() {
         <CardContent className="pt-6">
           <div className="space-y-4">
             {/* Image Upload Area */}
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:bg-gray-50 transition-colors">
+            <div 
+              ref={dropZoneRef}
+              className={`border-2 ${isDragging ? 'border-blue-500 bg-blue-50' : 'border-dashed border-gray-300'} rounded-lg p-4 text-center hover:bg-gray-50 transition-colors`}
+              onDragEnter={handleDragEnter}
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+            >
               {selectedImage ? (
                 <div className="relative">
                   <img 
@@ -168,7 +358,9 @@ export default function CalorieTracker() {
                 </div>
               ) : (
                 <div className="py-8">
-                  <p className="text-gray-500 mb-2">Drag and drop an image here or click to browse</p>
+                  <p className="text-gray-500 mb-2">
+                    {isDragging ? "Drop your image here" : "Drag and drop an image here or click to browse"}
+                  </p>
                   <div className="flex justify-center gap-4 mt-4">
                     <Button 
                       variant="outline" 
@@ -249,20 +441,79 @@ export default function CalorieTracker() {
         {/* Results Section */}
         {result && (
           <CardContent className="border-t border-gray-200 pt-6 mt-4">
-            <div className="space-y-4">
-              {/* Total Calories (Prominently Displayed) */}
-              <div className="bg-blue-50 p-4 rounded-lg text-center mb-6">
-                <h3 className="text-gray-600 text-lg">Total Calories</h3>
-                <p className="text-3xl font-bold text-blue-700">{result.totalCalories}</p>
+            <div className="space-y-6">
+              {/* Meal Title with modern styling */}
+              <h2 className="text-3xl font-bold text-center text-gray-800 mb-4">
+                {result.mealName || "Morning Sandwich"}
+              </h2>
+              
+              {/* Food Image with Tagged Items (if available) */}
+              {selectedImage && (
+                <div className="relative max-w-md mx-auto mb-8">
+                  <img 
+                    src={selectedImage} 
+                    alt="Analyzed Food" 
+                    className="w-full rounded-xl shadow-md" 
+                  />
+                  {/* In a real app, we'd add annotation points for each identified food item */}
+                </div>
+              )}
+              
+              {/* Nutrition Overview with modern gradient and styling */}
+              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 shadow-sm">
+                <div className="flex justify-between items-center mb-8">
+                  <div className="text-blue-600 text-lg font-medium">Total Calories</div>
+                  <div className="text-3xl font-bold text-blue-700">{result.totalCalories} <span className="text-xl">Cal</span></div>
+                </div>
+                
+                <h3 className="text-lg font-semibold mb-6 text-gray-700">Nutrition Facts</h3>
+                
+                <div className="flex justify-around items-center gap-4 px-4">
+                  {/* Macronutrient Circles */}
+                  <NutrientCircle 
+                    value={result.nutritionFacts?.carbs || 0} 
+                    label="Carb" 
+                    color="#4ade80" // Green
+                  />
+                  
+                  <NutrientCircle 
+                    value={result.nutritionFacts?.protein || 0} 
+                    label="Protein" 
+                    color="#60a5fa" // Blue
+                  />
+                  
+                  <NutrientCircle 
+                    value={result.nutritionFacts?.fat || 0} 
+                    label="Fat" 
+                    color="#f97316" // Orange 
+                  />
+                </div>
               </div>
               
               {/* Detailed Analysis */}
-              <div className="bg-white rounded-lg shadow-sm p-4 border">
-                <h3 className="font-semibold text-lg border-b pb-2 mb-3">Detailed Analysis</h3>
-                <div className="whitespace-pre-wrap text-gray-700">
-                  {result.analysis}
-                </div>
-              </div>
+              <Tabs defaultValue="summary" className="w-full">
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="summary">Summary</TabsTrigger>
+                  <TabsTrigger value="details">Detailed Analysis</TabsTrigger>
+                </TabsList>
+                
+                <TabsContent value="summary" className="p-4 border rounded-lg mt-2">
+                  <div className="space-y-2">
+                    <h4 className="font-medium">Summary</h4>
+                    <p className="text-gray-700">
+                      This meal contains approximately {result.totalCalories} calories with 
+                      {result.nutritionFacts?.protein}g protein, {result.nutritionFacts?.carbs}g carbs, 
+                      and {result.nutritionFacts?.fat}g fat.
+                    </p>
+                  </div>
+                </TabsContent>
+                
+                <TabsContent value="details" className="p-4 border rounded-lg mt-2">
+                  <div className="whitespace-pre-wrap text-gray-700">
+                    {result.analysis}
+                  </div>
+                </TabsContent>
+              </Tabs>
             </div>
           </CardContent>
         )}

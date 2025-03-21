@@ -13,6 +13,13 @@ A powerful AI chatbot built with Next.js, LangChain, and IBM Watsonx.ai Engine.
 - 🛠️ Tool integration (web search, calculator, weather)
 - 📝 Markdown support for messages
 - 🔍 Advanced search capabilities
+- **AI-Powered Chat**: Engage with a state-of-the-art language model for assistance
+- **Chat History**: Persistent chat history for all your conversations
+- **Responsive Design**: Optimized for both desktop and mobile devices
+- **User Authentication**: Secure login with email or social accounts
+- **Dark Mode**: Toggle between light and dark themes for comfortable viewing
+- **Tool Integration**: Use AI tools for math, currency conversion, weather, news, and more
+- **UI Controls**: Customize your experience with chat settings, share your conversations, and explore tool examples
 
 ## Tech Stack
 
@@ -96,3 +103,33 @@ wxflows import curl https://"".com
 wxflows deploy
 
 claude-3-7-sonnet-20250219
+
+## UI Components
+
+### Chat Settings
+
+The Chat Settings component allows users to customize their chat experience with the following options:
+
+- **Theme**: Toggle between light and dark mode
+- **Font Size**: Adjust text size for better readability
+- **Layout**: Toggle sidebar visibility
+- **Accent Color**: Choose from various color themes
+- **Reset Settings**: Restore default settings
+
+### Share Conversation
+
+The Share Conversation component enables users to share their chats in various ways:
+
+- **Link Sharing**: Generate a shareable link with customizable expiration
+- **Social Media**: Share directly to Twitter, Facebook, LinkedIn, or via email
+- **Export Options**: Copy conversation text or download as a file
+- **Privacy Controls**: Choose whether to include system messages
+
+### Tools Examples
+
+The Tools Examples component showcases available tools and provides example prompts:
+
+- **Categorized Tools**: Browse tools by category (Utilities, Information, Search)
+- **Example Prompts**: Ready-to-use example queries for each tool
+- **Quick Access**: Use examples directly in your conversation with a single click
+- **Copy Function**: Copy examples to use later

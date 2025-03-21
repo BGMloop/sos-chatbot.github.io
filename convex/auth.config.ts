@@ -3,7 +3,7 @@ export default {
     {
       domain: "model-gull-69.clerk.accounts.dev",
       applicationID: "convex",
-      userFields: ["email", "firstName", "lastName"],
+      userFields: ["email", "firstName", "lastName", "id"],
       defaultUser: {
         name: "Anonymous User",
         role: "user"

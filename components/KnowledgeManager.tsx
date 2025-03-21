@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, lazy, Suspense } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -18,23 +18,45 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { toast } from "@/components/ui/use-toast";
 import { Loader2, UploadCloud, FileText, MoreVertical, Download, Trash } from "lucide-react";
+
+// Lazy load non-critical components
+const Dialog = lazy(() => import("@/components/ui/dialog").then(mod => ({ 
+  default: mod.Dialog 
+})));
+const DialogContent = lazy(() => import("@/components/ui/dialog").then(mod => ({ 
+  default: mod.DialogContent 
+})));
+const DialogDescription = lazy(() => import("@/components/ui/dialog").then(mod => ({ 
+  default: mod.DialogDescription 
+})));
+const DialogFooter = lazy(() => import("@/components/ui/dialog").then(mod => ({ 
+  default: mod.DialogFooter 
+})));
+const DialogHeader = lazy(() => import("@/components/ui/dialog").then(mod => ({ 
+  default: mod.DialogHeader 
+})));
+const DialogTitle = lazy(() => import("@/components/ui/dialog").then(mod => ({ 
+  default: mod.DialogTitle 
+})));
+const DialogTrigger = lazy(() => import("@/components/ui/dialog").then(mod => ({ 
+  default: mod.DialogTrigger 
+})));
+
+// Lazy load dropdown menu
+const DropdownMenu = lazy(() => import("@/components/ui/dropdown-menu").then(mod => ({ 
+  default: mod.DropdownMenu 
+})));
+const DropdownMenuContent = lazy(() => import("@/components/ui/dropdown-menu").then(mod => ({ 
+  default: mod.DropdownMenuContent 
+})));
+const DropdownMenuItem = lazy(() => import("@/components/ui/dropdown-menu").then(mod => ({ 
+  default: mod.DropdownMenuItem 
+})));
+const DropdownMenuTrigger = lazy(() => import("@/components/ui/dropdown-menu").then(mod => ({ 
+  default: mod.DropdownMenuTrigger 
+})));
 
 interface KnowledgeDocument {
   _id: Id<"knowledgeDocuments">;
@@ -46,8 +68,13 @@ interface KnowledgeDocument {
   isEnabled: boolean;
 }
 
+// Simple fallback for lazy loaded components
+function ComponentFallback() {
+  return <div className="animate-pulse h-10 w-full bg-gray-100 rounded"></div>;
+}
+
 export function KnowledgeManager() {
-  const { user } = useUser();
+  const { user, isLoaded: userLoaded } = useUser();
   const userId = user?.id || "";
   
   // States
@@ -56,12 +83,15 @@ export function KnowledgeManager() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Convex queries and mutations
-  const documents = useQuery(api.knowledge.listDocuments, { userId }) || [];
+  // Convex queries and mutations - only fetch when user is loaded
+  const documents = useQuery(
+    api.knowledge.listDocuments, 
+    userLoaded && userId ? { userId } : "skip"
+  ) || [];
   const updateDocument = useMutation(api.knowledge.updateDocument);
   const deleteDocument = useMutation(api.knowledge.deleteDocument);
 
-  // Handler for file selection
+  // Handler for file selection - memoized to avoid recreating on every render
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       setSelectedFile(e.target.files[0]);
@@ -162,6 +192,15 @@ export function KnowledgeManager() {
     return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
   };
 
+  // Show loading state while user is being loaded
+  if (!userLoaded) {
+    return (
+      <div className="w-full h-64 flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
+
   return (
     <div className="knowledge-manager w-full max-w-4xl mx-auto space-y-6">
       <Card>
@@ -199,10 +238,13 @@ export function KnowledgeManager() {
                 rows={3}
               />
             </div>
+          </div>
+        </CardContent>
+        <CardFooter>
             <Button
               onClick={handleUpload}
               disabled={!selectedFile || uploading}
-              className="w-full"
+            className="w-full sm:w-auto"
             >
               {uploading ? (
                 <>
@@ -216,32 +258,46 @@ export function KnowledgeManager() {
                 </>
               )}
             </Button>
-          </div>
-        </CardContent>
+        </CardFooter>
       </Card>
 
-      <div className="space-y-4">
-        <h3 className="text-lg font-medium">Your Documents</h3>
-        
-        {documents.length === 0 ? (
-          <div className="text-center p-6 bg-muted rounded-md">
-            <FileText className="mx-auto h-8 w-8 text-muted-foreground" />
-            <p className="mt-2 text-sm text-muted-foreground">
-              No documents uploaded yet. Add documents to enhance your AI assistant's knowledge.
-            </p>
+      <h2 className="text-xl font-semibold mt-8 mb-4">Your Documents</h2>
+      {!documents.length ? (
+        <div className="text-center p-8 border rounded-lg bg-muted/20">
+          <p className="text-muted-foreground">No documents have been uploaded yet</p>
           </div>
         ) : (
-          <div className="space-y-3">
+        <div className="grid gap-4">
             {documents.map((doc) => (
               <Card key={doc._id}>
-                <CardHeader className="pb-2">
-                  <div className="flex justify-between items-start">
+              <CardContent className="pt-6">
+                <div className="flex items-start justify-between">
+                  <div className="flex items-start gap-3">
+                    <FileText className="h-8 w-8 text-blue-500" />
                     <div>
-                      <CardTitle className="text-base">{doc.fileName}</CardTitle>
-                      <CardDescription>
-                        {formatFileSize(doc.fileSize)} • Added {new Date(doc.createdAt).toLocaleDateString()}
-                      </CardDescription>
+                      <h3 className="font-medium">{doc.fileName}</h3>
+                      <p className="text-sm text-muted-foreground">
+                        {formatFileSize(doc.fileSize)} • {new Date(doc.createdAt).toLocaleDateString()}
+                      </p>
+                      {doc.description && (
+                        <p className="text-sm mt-1">{doc.description}</p>
+                      )}
                     </div>
+                  </div>
+
+                  <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2">
+                      <Switch
+                        checked={doc.isEnabled}
+                        onCheckedChange={() => toggleDocumentEnabled(doc._id, doc.isEnabled)}
+                        aria-label={doc.isEnabled ? "Disable document" : "Enable document"}
+                      />
+                      <span className="text-sm text-muted-foreground">
+                        {doc.isEnabled ? "Enabled" : "Disabled"}
+                      </span>
+                    </div>
+
+                    <Suspense fallback={<ComponentFallback />}>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="icon">
@@ -250,30 +306,15 @@ export function KnowledgeManager() {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuItem
-                          className="text-destructive"
                           onClick={() => handleDeleteDocument(doc._id, doc.fileName)}
+                            className="text-red-600"
                         >
-                          <Trash className="h-4 w-4 mr-2" />
+                            <Trash className="mr-2 h-4 w-4" />
                           Delete
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  {doc.description && (
-                    <p className="text-sm text-muted-foreground mb-2">{doc.description}</p>
-                  )}
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <Switch
-                        id={`enable-${doc._id}`}
-                        checked={doc.isEnabled}
-                        onCheckedChange={() => toggleDocumentEnabled(doc._id, doc.isEnabled)}
-                      />
-                      <Label htmlFor={`enable-${doc._id}`} className="cursor-pointer">
-                        {doc.isEnabled ? "Enabled" : "Disabled"}
-                      </Label>
+                    </Suspense>
                     </div>
                   </div>
                 </CardContent>
@@ -281,7 +322,6 @@ export function KnowledgeManager() {
             ))}
           </div>
         )}
-      </div>
     </div>
   );
 } 

@@ -17,6 +17,7 @@ import { AIMessage, HumanMessage } from "@langchain/core/messages";
 import { submitQuestion } from "@/lib/huggingface";
 import StarsBackground from "@/components/StarsBackground";
 import { useNotificationSound } from "@/hooks/useNotificationSound";
+import { useUser } from "@clerk/nextjs";
 
 // Define types for client-side messages
 interface BaseMessage {
@@ -108,6 +109,7 @@ export default function ChatInterface({
   const [retries, setRetries] = useState(0);
   const MAX_RETRIES = 3;
   const playNotificationSound = useNotificationSound();
+  const { user } = useUser();
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -244,7 +246,7 @@ export default function ChatInterface({
       }
 
       // Process messages
-      const stream = await submitQuestion(messagesToProcess, chatId, user?.id);
+      const stream = await submitQuestion(messagesToProcess, chatId, user?.id || 'anonymous');
       if (!stream) {
         throw new Error("Failed to get response stream");
       }

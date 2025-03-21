@@ -41,6 +41,11 @@
     --chart-5: 27 87% 67%;
 
     --radius: 0.5rem;
+
+    /* Chat styling variables */
+    --chat-font-size: 16px;
+    --chat-text-color: #000000;
+    --chat-bubble-color: #2563eb;
   }
 
   .dark {
@@ -89,6 +94,20 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Chat styling */
+.message-text {
+  font-size: var(--chat-font-size);
+}
+
+.user-message {
+  background-color: var(--chat-bubble-color);
+  color: white;
+}
+
+.bot-message {
+  color: var(--chat-text-color);
 }
 
 /* Book formatting styles */

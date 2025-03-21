@@ -4,7 +4,7 @@ import { executeTool } from "@/lib/langgraph";
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { tool, parameters } = body;
+    const { tool, parameters, params } = body;
 
     if (!tool) {
       return Response.json(
@@ -13,10 +13,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    console.log(`Executing tool: ${tool}`, parameters);
+    console.log(`Executing tool: ${tool}`, parameters || params);
     
     // Execute the tool
-    const result = await executeTool(tool, parameters || {});
+    const result = await executeTool(tool, parameters || params || {});
     
     // Return the result
     if (result.error) {

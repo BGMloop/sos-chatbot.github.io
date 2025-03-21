@@ -2,34 +2,37 @@
 
 import { Suspense } from "react";
 import dynamic from "next/dynamic";
-import { PanelLeft } from "lucide-react";
 import { useNavigation } from "@/lib/context/navigation";
 import { cn } from "@/lib/utils";
+import { PanelLeft, PanelRightClose } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const UserButton = dynamic(
   () => import("@clerk/nextjs").then((mod) => mod.UserButton),
   { ssr: false }
 );
 
-export default function Header() {
-  const { toggleSidebar, isSidebarOpen } = useNavigation();
+export function Header() {
+  const { isSidebarOpen, toggleSidebar } = useNavigation();
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-white/80 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 w-full border-b bg-white/80 backdrop-blur-sm dark:bg-gray-900/80">
       <div className="flex h-14 items-center justify-between px-4">
         <div className="flex items-center gap-4">
-          <button
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={toggleSidebar}
-            className="group relative inline-flex h-9 w-9 items-center justify-center rounded-lg transition-all duration-200 hover:-translate-y-0.5"
-            aria-label="Toggle Sidebar"
+            aria-label={isSidebarOpen ? "Close sidebar" : "Open sidebar"}
+            className="h-8 w-8"
           >
-            <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-indigo-600 to-black opacity-0 group-hover:opacity-10 transition-opacity" />
-            <PanelLeft className={cn(
-              "h-5 w-5 transition-transform duration-200",
-              isSidebarOpen ? "rotate-180 text-indigo-600" : "text-gray-600"
-            )} />
-          </button>
-          <div className="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-black">
+            {isSidebarOpen ? (
+              <PanelRightClose className="h-4 w-4" />
+            ) : (
+              <PanelLeft className="h-4 w-4" />
+            )}
+          </Button>
+          <div className="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-black dark:from-indigo-400 dark:to-white">
             SOS ChatBot
           </div>
         </div>

@@ -1,6 +1,13 @@
-// News API handler for SOS Chatbot
+// News search tool implementation using News API
 
-// Process news search results
+// Import required tools
+import { executeGraphQL } from '../../lib/graphql-client';
+
+/**
+ * Process news search results to a consistent format
+ * @param {Object} response - API response data
+ * @returns {Object} - Processed news results
+ */
 function processNewsResults(response) {
   try {
     // Check for errors
@@ -11,20 +18,24 @@ function processNewsResults(response) {
       };
     }
 
-    // Limit to top 5 articles for readability
-    const articles = response.articles.slice(0, 5).map(article => ({
+    // Format articles consistently
+    const articles = response.articles.map(article => ({
       title: article.title,
+      description: article.description,
       url: article.url,
-      source: article.source?.name,
+      source: article.source?.name || article.source,
       publishedAt: article.publishedAt,
-      description: article.description
+      content: article.content
     }));
 
     // Return processed articles
     return {
-      headlines: articles,
+      result: {
+        articles,
       totalResults: response.totalResults,
       query: response.query
+      },
+      status: "success"
     };
   } catch (error) {
     console.error('Error processing news:', error);
@@ -35,69 +46,254 @@ function processNewsResults(response) {
   }
 }
 
-// Default handler for "news" tool
-export default async function news({ topic }) {
+/**
+ * News search tool
+ * @param {Object} params - Parameters for the news search
+ * @param {string} params.topic - Topic to search for (e.g., "technology", "climate change")
+ * @returns {Object} - Result object with news articles
+ */
+export async function newsTool(params) {
   try {
-    // Set default parameters for better results
-    const params = {
-      q: topic,
-      language: 'en',
-      sortBy: 'relevancy',
-      pageSize: 5,
-      page: 1
-    };
+    // Extract topic from parameters
+    const { topic } = params;
     
-    console.log(`Searching news for topic: ${topic}`);
-    
-    // Use GraphQL to fetch from News API
-    const response = await this.executeGraphQL({
-      query: 'query ($q: String!, $language: String, $sortBy: String, $pageSize: Int, $page: Int) { newsApi(q: $q, language: $language, sortBy: $sortBy, pageSize: $pageSize, page: $page) { status totalResults articles { title url source { name } publishedAt description } } }',
-      variables: params
-    });
-    
-    // Process and return the results
-    return processNewsResults({
-      ...response.newsApi,
+    if (!topic) {
+      return {
+        error: "Missing required parameter: topic",
+        status: "error"
+      };
+    }
+
+    try {
+      // Try to use GraphQL for news search
+      const result = await executeGraphQL({
+        query: `
+          query SearchNews($query: String!, $pageSize: Int) {
+            newsSearch(query: $query, pageSize: $pageSize) {
+              status
+              totalResults
+              articles {
+                title
+                description
+                url
+                source {
+                  name
+                }
+                publishedAt
+                content
+              }
+            }
+          }
+        `,
+        variables: { 
+          query: topic,
+          pageSize: 10
+        }
+      });
+      
+      if (!result || !result.newsSearch) {
+        throw new Error('Failed to get news results');
+      }
+      
+      return {
+        result: {
+          articles: result.newsSearch.articles,
+          totalResults: result.newsSearch.totalResults,
       query: topic
-    });
+        },
+        status: "success"
+      };
+    } catch (graphqlError) {
+      // Fall back to direct API call
+      console.log("Using fallback news API due to GraphQL error");
+      return await fallbackNewsSearch(topic);
+    }
   } catch (error) {
-    console.error('Error fetching news:', error);
+    console.error("News tool error:", error);
     return {
-      error: `Error fetching news: ${error.message}`,
-      status: 'error'
+      error: error.message || "An error occurred while fetching news",
+      status: "error"
     };
   }
 }
 
-// Add specialized handler for top headlines
-export async function topHeadlines({ country = 'us', category, query }) {
+/**
+ * Fallback function to search news directly via API
+ * @param {string} topic - News topic to search for
+ * @returns {Promise<Object>} - News search results
+ */
+async function fallbackNewsSearch(topic) {
   try {
-    const params = {
-      country,
-      category: category || undefined,
-      q: query || undefined,
-      pageSize: 5,
-      page: 1
-    };
+    // Get the API key from environment variable
+    const apiKey = process.env.NEWS_API_KEY || 'a5670c3012f2473cb73cc6f75cacb5d6'; // Fallback to a demo key
     
-    console.log(`Fetching top headlines for: ${country}${category ? ', ' + category : ''}${query ? ', query: ' + query : ''}`);
+    // Call the News API
+    const response = await fetch(
+      `https://newsapi.org/v2/everything?q=${encodeURIComponent(topic)}&sortBy=publishedAt&pageSize=10&language=en`,
+      {
+        headers: {
+          'X-Api-Key': apiKey
+        }
+      }
+    );
     
-    // Use GraphQL to fetch from News API top headlines
-    const response = await this.executeGraphQL({
-      query: 'query ($country: String!, $category: String, $q: String, $pageSize: Int, $page: Int) { newsTopHeadlines(country: $country, category: $category, q: $q, pageSize: $pageSize, page: $page) { status totalResults articles { title url source { name } publishedAt description } } }',
-      variables: params
-    });
+    if (!response.ok) {
+      throw new Error(`News API error: ${response.statusText}`);
+    }
     
-    // Process and return the results
-    return processNewsResults({
-      ...response.newsTopHeadlines,
-      query: `${country} ${category || ''} ${query || ''}`.trim()
-    });
-  } catch (error) {
-    console.error('Error fetching top headlines:', error);
+    const data = await response.json();
+    
+    if (data.status !== 'ok') {
+      throw new Error(`News API returned error: ${data.message || 'Unknown error'}`);
+    }
+    
+    // Format the articles
+    const articles = data.articles.map(article => ({
+      title: article.title,
+      description: article.description,
+      url: article.url,
+      source: article.source.name,
+      publishedAt: article.publishedAt,
+      content: article.content
+    }));
+    
     return {
-      error: `Error fetching top headlines: ${error.message}`,
-      status: 'error'
+      result: {
+        articles,
+        totalResults: data.totalResults,
+        query: topic,
+        source: "fallback"
+      },
+      status: "success"
+    };
+  } catch (fallbackError) {
+    console.error("Fallback news API error:", fallbackError);
+    return {
+      error: fallbackError.message || "An error occurred while fetching news",
+      status: "error"
+    };
+  }
+}
+
+/**
+ * Top headlines specialized function
+ * @param {Object} params - Parameters for headlines
+ * @param {string} params.country - Country code (e.g., 'us', 'gb')
+ * @param {string} params.category - News category (optional)
+ * @param {string} params.query - Search query (optional)
+ * @returns {Promise<Object>} News headlines
+ */
+export async function topHeadlines(params) {
+  try {
+    const { country = 'us', category, query } = params;
+    
+    try {
+      // Try to use GraphQL for top headlines
+      const result = await executeGraphQL({
+        query: `
+          query GetTopHeadlines($country: String!, $category: String, $query: String) {
+            newsTopHeadlines(country: $country, category: $category, q: $query) {
+              status
+              totalResults
+              articles {
+                title
+                description
+                url
+                source {
+                  name
+                }
+                publishedAt
+              }
+            }
+          }
+        `,
+        variables: { 
+          country,
+          category: category || undefined,
+          query: query || undefined
+        }
+      });
+      
+      if (!result || !result.newsTopHeadlines) {
+        throw new Error('Failed to get news headlines');
+      }
+      
+      return {
+        result: {
+          articles: result.newsTopHeadlines.articles,
+          totalResults: result.newsTopHeadlines.totalResults,
+          country,
+          category: category || undefined,
+          query: query || undefined
+        },
+        status: "success"
+      };
+    } catch (graphqlError) {
+      // Fall back to direct API call for headlines
+      console.log("Using fallback news headlines API due to GraphQL error");
+      
+      // Get the API key from environment variable
+      const apiKey = process.env.NEWS_API_KEY || 'a5670c3012f2473cb73cc6f75cacb5d6'; // Fallback to a demo key
+      
+      // Build the API URL
+      let url = `https://newsapi.org/v2/top-headlines?country=${country.toLowerCase()}&pageSize=10`;
+      
+      // Add category if provided
+      if (category) {
+        url += `&category=${category}`;
+      }
+      
+      // Add query if provided
+      if (query) {
+        url += `&q=${encodeURIComponent(query)}`;
+      }
+      
+      // Call the News API
+      const response = await fetch(url, {
+        headers: {
+          'X-Api-Key': apiKey
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error(`News API error: ${response.statusText}`);
+      }
+      
+      const data = await response.json();
+      
+      if (data.status !== 'ok') {
+        throw new Error(`News API returned error: ${data.message || 'Unknown error'}`);
+      }
+      
+      // Format the articles
+      const articles = data.articles.map(article => ({
+        title: article.title,
+        description: article.description,
+        url: article.url,
+        source: article.source.name,
+        publishedAt: article.publishedAt
+      }));
+      
+      return {
+        result: {
+          articles,
+          totalResults: data.totalResults,
+          country,
+          category,
+          query,
+          source: "fallback"
+        },
+        status: "success"
+      };
+    }
+  } catch (error) {
+    console.error("Top headlines error:", error);
+    return {
+      error: error.message || "An error occurred while fetching news headlines",
+      status: "error"
     };
   }
 } 
+
+// Export the main method as default
+export default newsTool;
