@@ -89,6 +89,7 @@ export const config = {
 
 Create the sign-in page at `app/sign-in/page.tsx`:
 
+{% raw %}
 ```typescript
 import { SignIn } from '@clerk/nextjs';
 
@@ -111,9 +112,11 @@ export default function SignInPage() {
   );
 }
 ```
+{% endraw %}
 
 Create the sign-up page at `app/sign-up/page.tsx`:
 
+{% raw %}
 ```typescript
 import { SignUp } from '@clerk/nextjs';
 
@@ -136,6 +139,7 @@ export default function SignUpPage() {
   );
 }
 ```
+{% endraw %}
 
 ## Utility Functions
 
