@@ -3,12 +3,14 @@
 import { Id } from "@/convex/_generated/dataModel";
 import ChatHeader from "@/components/ChatHeader";
 import ChatInterface from "@/components/ChatInterface";
-import { useState, useEffect } from "react";
-import { useQuery } from "convex/react";
+import { useState, useEffect, useRef } from "react";
+import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Button } from "@/components/ui/button";
-import { Check, Copy, Facebook, Link, Twitter, Moon, Sun, Volume2, VolumeX, MessageSquare } from "lucide-react";
+import { Check, Copy, Facebook, Link, Twitter, Moon, Sun, Volume2, VolumeX, MessageSquare, Send } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import MessageList from "./components/MessageList";
 
 interface ChatContainerProps {
   chatId: Id<"chats">;
