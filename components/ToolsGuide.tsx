@@ -15,72 +15,72 @@ const TOOL_EXAMPLES = [
     name: "Web Search",
     description: "Search the web for real-time information (DuckDuckGo)",
     examples: [
-      "Search the web for latest AI advancements in healthcare",
-      "Find information about climate change policies in Europe",
-      "Look up recent news about quantum computing breakthroughs"
+      "Search the web for the latest AI advancements in healthcare",
+      "Find information about renewable energy technologies",
+      "Look up best practices for hydroponic gardening"
     ]
   },
   {
     name: "Wikipedia",
     description: "Search for factual information on Wikipedia",
     examples: [
-      "Tell me about quantum computing from Wikipedia",
+      "Search Wikipedia for quantum computing",
       "What does Wikipedia say about climate change?",
-      "Use Wikipedia to find information about the history of artificial intelligence"
+      "Look up 'artificial intelligence' on Wikipedia"
     ]
   },
   {
     name: "Google Books",
     description: "Search for books and literary references",
     examples: [
-      "Search Google Books for machine learning books",
-      "Find books by Haruki Murakami using Google Books",
-      "What are the most popular psychology books according to Google Books?"
+      "Find books by Yuval Noah Harari",
+      "Search for the book 'Dune' by Frank Herbert",
+      "Get information about The Great Gatsby"
     ]
   },
   {
-    name: "YouTube Transcript",
-    description: "Get transcripts from YouTube videos",
+    name: "Math Calculator",
+    description: "Perform mathematical calculations using WolframAlpha",
     examples: [
-      "Get the transcript for this YouTube video: https://www.youtube.com/watch?v=VIDEO_ID",
-      "Show me what is said in this YouTube video: https://www.youtube.com/watch?v=VIDEO_ID",
-      "Extract and summarize the transcript from this YouTube video: https://www.youtube.com/watch?v=VIDEO_ID"
+      "Calculate 15% of 230",
+      "Solve the equation x^2 + 5x + 6 = 0",
+      "What is the derivative of sin(2x)?"
     ]
   },
   {
-    name: "Math (WolframAlpha)",
-    description: "Perform mathematical calculations",
-    examples: [
-      "Calculate the integral of x^2 sin(x) using WolframAlpha",
-      "Use WolframAlpha to solve the equation 3x^2 + 2x - 5 = 0",
-      "Compute the derivative of log(x) * e^x with WolframAlpha"
-    ]
-  },
-  {
-    name: "Exchange Rates",
+    name: "Currency Exchange",
     description: "Get currency exchange information",
     examples: [
-      "Show the current exchange rate between USD and EUR",
-      "Convert 100 USD to Japanese Yen using the exchange rate tool",
-      "What is the current exchange rate for British Pound to USD?"
+      "Convert 100 USD to EUR",
+      "Convert from: USD, to: JPY, amount: 50",
+      "What is the exchange rate between GBP and CAD?"
+    ]
+  },
+  {
+    name: "Weather",
+    description: "Get weather information for any location",
+    examples: [
+      "What's the weather in London?",
+      "Show me the weather forecast for Tokyo",
+      "Current temperature in New York City"
     ]
   },
   {
     name: "News Search",
     description: "Search for news articles by topic",
     examples: [
-      "Show me news about technology",
-      "Find recent articles about climate change",
-      "What's the latest news on artificial intelligence?"
+      "Find news about artificial intelligence",
+      "Show me recent news about climate change",
+      "Search for technology news"
     ]
   },
   {
     name: "News Headlines",
     description: "Get top headlines by country and category",
     examples: [
-      "Show me top headlines in the US",
+      "Show top headlines in the US",
       "What are the latest business headlines in the UK?",
-      "Get today's technology news headlines"
+      "Show technology news headlines for Germany"
     ]
   }
 ];
