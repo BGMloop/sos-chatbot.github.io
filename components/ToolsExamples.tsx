@@ -41,12 +41,12 @@ export default function ToolsExamples({
     {
       id: 'math',
       name: 'Math Calculator',
-      description: 'Solve mathematical calculations with precision.',
+      description: 'Solve mathematical calculations, equations, and more.',
       icon: <Calculator className="h-5 w-5" />,
       examples: [
-        'Calculate 15% of 230',
-        'Solve the equation x^2 + 5x + 6 = 0',
-        'What is the derivative of sin(2x)'
+        'Calculate (145 * 38) / 12',
+        'Solve the equation 3x^2 - 12x + 9 = 0',
+        'Convert 128 pounds to kilograms'
       ],
       category: 'utilities'
     },
@@ -57,8 +57,8 @@ export default function ToolsExamples({
       icon: <CreditCard className="h-5 w-5" />,
       examples: [
         'Convert 100 USD to EUR',
-        'Convert from: USD, to: JPY, amount: 50',
-        'What is the exchange rate between GBP and CAD?'
+        'Convert from: GBP, to: JPY, amount: 75',
+        'What is the current exchange rate between USD and CAD?'
       ],
       category: 'utilities'
     },
@@ -68,9 +68,9 @@ export default function ToolsExamples({
       description: 'Get current weather conditions and forecasts for any location.',
       icon: <Cloud className="h-5 w-5" />,
       examples: [
-        'What\'s the weather in London?',
-        'Show me the weather forecast for Tokyo',
-        'Current temperature in New York City'
+        'What is the current weather in New York City?',
+        'Show me the temperature in Paris, France',
+        'Is it going to rain today in London?'
       ],
       category: 'information'
     },
@@ -80,9 +80,9 @@ export default function ToolsExamples({
       description: 'Search for recent news articles by topic.',
       icon: <Newspaper className="h-5 w-5" />,
       examples: [
-        'Find news about artificial intelligence',
-        'Show me recent news about climate change',
-        'Search for technology news'
+        'Find news about SpaceX rocket launches',
+        'Show me recent news about electric vehicles',
+        'What are the latest developments in quantum computing?'
       ],
       category: 'information'
     },
@@ -92,21 +92,21 @@ export default function ToolsExamples({
       description: 'Get top headlines by country and category.',
       icon: <Newspaper className="h-5 w-5" />,
       examples: [
-        'Show top headlines in the US',
-        'What are the latest business headlines in the UK?',
-        'Show technology news headlines for Germany'
+        'Show top headlines from the US',
+        'Get the latest business headlines for the UK',
+        'What are today\'s technology news headlines in Germany?'
       ],
       category: 'information'
     },
     {
       id: 'books',
       name: 'Google Books',
-      description: 'Search for books and get details like authors, publish dates, and summaries.',
+      description: 'Search for books and get author, publication and summary information.',
       icon: <BookOpen className="h-5 w-5" />,
       examples: [
-        'Find books by Yuval Noah Harari',
-        'Search for the book "Dune" by Frank Herbert',
-        'Get information about "The Great Gatsby"'
+        'Find books about machine learning',
+        'Search for books by Neil Gaiman',
+        'Tell me about the book "1984" by George Orwell'
       ],
       category: 'search'
     },
@@ -116,9 +116,9 @@ export default function ToolsExamples({
       description: 'Look up information from Wikipedia articles.',
       icon: <Search className="h-5 w-5" />,
       examples: [
-        'Search Wikipedia for quantum physics',
-        'What does Wikipedia say about the Roman Empire?',
-        'Look up "artificial intelligence" on Wikipedia'
+        'Search Wikipedia for information about black holes',
+        'What does Wikipedia say about the history of the internet?',
+        'Look up "renewable energy" on Wikipedia'
       ],
       category: 'search'
     },
@@ -128,9 +128,9 @@ export default function ToolsExamples({
       description: 'Search the web for real-time information on any topic.',
       icon: <Globe className="h-5 w-5" />,
       examples: [
-        'Search the web for latest AI advancements',
-        'Find information about renewable energy technologies',
-        'Look up best practices for urban gardening'
+        'Search the web for recent advances in AI ethics',
+        'Find the latest information about COVID-19 vaccines',
+        'What are the best practices for container gardening?'
       ],
       category: 'search'
     }

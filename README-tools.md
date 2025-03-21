@@ -12,13 +12,13 @@ Search the web for real-time information using DuckDuckGo.
 
 **Examples:**
 ```
-Search the web for the latest AI advancements in healthcare
+Search the web for recent advances in AI ethics
 ```
 ```
-Find information about renewable energy technologies
+Find the latest information about COVID-19 vaccines
 ```
 ```
-Look up best practices for hydroponic gardening
+What are the best practices for container gardening?
 ```
 
 ### 2. Wikipedia Search
@@ -27,43 +27,43 @@ Look up information from Wikipedia articles.
 
 **Examples:**
 ```
-Search Wikipedia for quantum computing
+Search Wikipedia for information about black holes
 ```
 ```
-What does Wikipedia say about climate change?
+What does Wikipedia say about the history of the internet?
 ```
 ```
-Look up 'artificial intelligence' on Wikipedia
+Look up "renewable energy" on Wikipedia
 ```
 
 ### 3. Google Books
 
-Search for books and get details like authors, publish dates, and summaries.
+Search for books and get author, publication and summary information.
 
 **Examples:**
 ```
-Find books by Yuval Noah Harari
+Find books about machine learning
 ```
 ```
-Search for the book 'Dune' by Frank Herbert
+Search for books by Neil Gaiman
 ```
 ```
-Get information about The Great Gatsby
+Tell me about the book "1984" by George Orwell
 ```
 
 ### 4. Math Calculator
 
-Solve mathematical calculations with precision using WolframAlpha.
+Solve mathematical calculations, equations, and more.
 
 **Examples:**
 ```
-Calculate 15% of 230
+Calculate (145 * 38) / 12
 ```
 ```
-Solve the equation x^2 + 5x + 6 = 0
+Solve the equation 3x^2 - 12x + 9 = 0
 ```
 ```
-What is the derivative of sin(2x)?
+Convert 128 pounds to kilograms
 ```
 
 ### 5. Currency Exchange
@@ -75,10 +75,10 @@ Convert between different currencies using real-time rates.
 Convert 100 USD to EUR
 ```
 ```
-Convert from: USD, to: JPY, amount: 50
+Convert from: GBP, to: JPY, amount: 75
 ```
 ```
-What is the exchange rate between GBP and CAD?
+What is the current exchange rate between USD and CAD?
 ```
 
 ### 6. Weather
@@ -87,13 +87,13 @@ Get current weather conditions and forecasts for any location.
 
 **Examples:**
 ```
-What's the weather in London?
+What is the current weather in New York City?
 ```
 ```
-Show me the weather forecast for Tokyo
+Show me the temperature in Paris, France
 ```
 ```
-Current temperature in New York City
+Is it going to rain today in London?
 ```
 
 ### 7. News Search
@@ -102,13 +102,13 @@ Search for recent news articles by topic.
 
 **Examples:**
 ```
-Find news about artificial intelligence
+Find news about SpaceX rocket launches
 ```
 ```
-Show me recent news about climate change
+Show me recent news about electric vehicles
 ```
 ```
-Search for technology news
+What are the latest developments in quantum computing?
 ```
 
 ### 8. News Headlines
@@ -117,13 +117,13 @@ Get top headlines by country and category.
 
 **Examples:**
 ```
-Show top headlines in the US
+Show top headlines from the US
 ```
 ```
-What are the latest business headlines in the UK?
+Get the latest business headlines for the UK
 ```
 ```
-Show technology news headlines for Germany
+What are today's technology news headlines in Germany?
 ```
 
 ## How To Use
@@ -140,7 +140,7 @@ If a tool doesn't seem to work:
 2. Check that you're following the format shown in the examples.
 3. Try rephrasing your question to more clearly indicate which tool you want to use.
 
-For example, instead of asking "Tell me about the weather", try "What's the weather in London?"
+For example, instead of asking "Tell me about the weather", try "What is the current weather in New York City?"
 
 ## Tool Parameters
 
@@ -152,14 +152,14 @@ Some tools require specific parameters. Here's what each tool expects:
 - Amount (optional, defaults to 1)
 
 ### Weather
-- Location (city name)
+- Location (city name, country optional but helpful)
 
 ### News Headlines
 - Country (e.g., US, UK, DE)
 - Category (optional, e.g., business, technology)
 
 ### Google Books
-- Search term (author name, book title, or general query)
+- Search term (author name, book title, or general topic)
 
 ### Wikipedia Search
 - Search term or topic

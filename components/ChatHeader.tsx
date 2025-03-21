@@ -28,7 +28,6 @@ export default function ChatHeader({
         >
           <ArrowLeft className="h-5 w-5" />
         </Button>
-        <h2 className="text-lg font-semibold">{title}</h2>
       </div>
       <div className="flex items-center gap-2">
         {onShareClick && (

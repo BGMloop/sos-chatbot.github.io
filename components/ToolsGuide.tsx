@@ -15,72 +15,72 @@ const TOOL_EXAMPLES = [
     name: "Web Search",
     description: "Search the web for real-time information (DuckDuckGo)",
     examples: [
-      "Search the web for the latest AI advancements in healthcare",
-      "Find information about renewable energy technologies",
-      "Look up best practices for hydroponic gardening"
+      "Search the web for recent advances in AI ethics",
+      "Find the latest information about COVID-19 vaccines",
+      "What are the best practices for container gardening?"
     ]
   },
   {
     name: "Wikipedia",
     description: "Search for factual information on Wikipedia",
     examples: [
-      "Search Wikipedia for quantum computing",
-      "What does Wikipedia say about climate change?",
-      "Look up 'artificial intelligence' on Wikipedia"
+      "Search Wikipedia for information about black holes",
+      "What does Wikipedia say about the history of the internet?",
+      "Look up \"renewable energy\" on Wikipedia"
     ]
   },
   {
     name: "Google Books",
-    description: "Search for books and literary references",
+    description: "Search for books and get author, publication and summary information",
     examples: [
-      "Find books by Yuval Noah Harari",
-      "Search for the book 'Dune' by Frank Herbert",
-      "Get information about The Great Gatsby"
+      "Find books about machine learning",
+      "Search for books by Neil Gaiman",
+      "Tell me about the book \"1984\" by George Orwell"
     ]
   },
   {
     name: "Math Calculator",
-    description: "Perform mathematical calculations using WolframAlpha",
+    description: "Solve mathematical calculations, equations, and more",
     examples: [
-      "Calculate 15% of 230",
-      "Solve the equation x^2 + 5x + 6 = 0",
-      "What is the derivative of sin(2x)?"
+      "Calculate (145 * 38) / 12",
+      "Solve the equation 3x^2 - 12x + 9 = 0",
+      "Convert 128 pounds to kilograms"
     ]
   },
   {
     name: "Currency Exchange",
-    description: "Get currency exchange information",
+    description: "Convert between different currencies using real-time rates",
     examples: [
       "Convert 100 USD to EUR",
-      "Convert from: USD, to: JPY, amount: 50",
-      "What is the exchange rate between GBP and CAD?"
+      "Convert from: GBP, to: JPY, amount: 75",
+      "What is the current exchange rate between USD and CAD?"
     ]
   },
   {
     name: "Weather",
-    description: "Get weather information for any location",
+    description: "Get current weather conditions and forecasts for any location",
     examples: [
-      "What's the weather in London?",
-      "Show me the weather forecast for Tokyo",
-      "Current temperature in New York City"
+      "What is the current weather in New York City?",
+      "Show me the temperature in Paris, France",
+      "Is it going to rain today in London?"
     ]
   },
   {
     name: "News Search",
-    description: "Search for news articles by topic",
+    description: "Search for recent news articles by topic",
     examples: [
-      "Find news about artificial intelligence",
-      "Show me recent news about climate change",
-      "Search for technology news"
+      "Find news about SpaceX rocket launches",
+      "Show me recent news about electric vehicles",
+      "What are the latest developments in quantum computing?"
     ]
   },
   {
     name: "News Headlines",
     description: "Get top headlines by country and category",
     examples: [
-      "Show top headlines in the US",
-      "What are the latest business headlines in the UK?",
-      "Show technology news headlines for Germany"
+      "Show top headlines from the US",
+      "Get the latest business headlines for the UK",
+      "What are today's technology news headlines in Germany?"
     ]
   }
 ];
