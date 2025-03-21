@@ -200,6 +200,7 @@ export default function ProtectedPage() {
 
 Create components to display user information:
 
+{% raw %}
 ```typescript
 // components/UserButton.tsx
 import { UserButton as ClerkUserButton } from "@clerk/nextjs";
@@ -217,6 +218,7 @@ export function UserButton() {
   );
 }
 ```
+{% endraw %}
 
 ## Clerk Dashboard Configuration
 
