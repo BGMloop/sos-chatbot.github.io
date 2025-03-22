@@ -8,12 +8,6 @@ import dynamic from "next/dynamic";
 import { useUser } from "@clerk/nextjs";
 
 // Static imports for lightweight components
-import ChatHeader from "@/components/ChatHeader";
-import ChatInterface from "@/components/ChatInterface";
-import { useState, useEffect, useRef } from "react";
-import { useQuery, useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
-import * as Dialog from "@radix-ui/react-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Send } from "lucide-react";
@@ -71,43 +65,6 @@ export default function ChatContainer({ chatId }: { chatId: string }) {
         } 
       : "skip"
   );
-import { Check, Copy, Facebook, Link, Twitter, Moon, Sun, Volume2, VolumeX, MessageSquare, Send } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import MessageList from "./components/MessageList";
-
-interface ChatContainerProps {
-  chatId: Id<"chats">;
-  title: string;
-}
-
-export default function ChatContainer({ chatId, title }: ChatContainerProps) {
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [isShareOpen, setIsShareOpen] = useState(false);
-  const [copied, setCopied] = useState(false);
-  
-  // Initialize settings from localStorage if available, otherwise use defaults
-  const [darkMode, setDarkMode] = useState<boolean>(() => {
-    if (typeof window !== 'undefined') {
-      const savedDarkMode = localStorage.getItem('chatDarkMode');
-      return savedDarkMode ? JSON.parse(savedDarkMode) : false;
-    }
-    return false;
-  });
-  
-  const [soundEnabled, setSoundEnabled] = useState<boolean>(() => {
-    if (typeof window !== 'undefined') {
-      const savedSound = localStorage.getItem('chatSoundEnabled');
-      return savedSound ? JSON.parse(savedSound) : true;
-    }
-    return true;
-  });
-  
-  const [fontSize, setFontSize] = useState<string>(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('chatFontSize') || 'medium';
-    }
-    return 'medium';
-  });
   
   const messages = useQuery(
     api.messages.list, 
@@ -225,4 +182,4 @@ export default function ChatContainer({ chatId, title }: ChatContainerProps) {
       <NotificationSound />
     </div>
   );
-} 
+}
