@@ -43,7 +43,7 @@ export default function KnowledgePage() {
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Knowledge Base</h1>
             <p className="text-muted-foreground">
-              Upload and manage documents to enhance your AI assistant's knowledge
+              Upload and manage documents to enhance your AI assistant&apos;s knowledge
             </p>
           </div>
           <Link href="/dashboard">

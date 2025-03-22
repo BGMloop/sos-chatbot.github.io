@@ -3,13 +3,14 @@ import { headers } from 'next/headers';
 import { WebhookEvent } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 import { ConvexHttpClient } from 'convex/browser';
+import { api } from '@/convex/_generated/api';
 
 // Initialize the Convex client
 const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL as string);
 
 export async function POST(req: Request) {
   // Get the headers
-  const headerPayload = headers();
+  const headerPayload = await headers();
   const svix_id = headerPayload.get('svix-id');
   const svix_timestamp = headerPayload.get('svix-timestamp');
   const svix_signature = headerPayload.get('svix-signature');
@@ -58,7 +59,12 @@ export async function POST(req: Request) {
         // Create a new user in Convex
         const { id, email_addresses, first_name, last_name, image_url } = evt.data;
         
-        await convex.mutation('users.createUser', {
+        if (!id) {
+          console.error('User created event missing id');
+          break;
+        }
+        
+        await convex.mutation(api.users.createUser, {
           clerkId: id,
           email: email_addresses?.[0]?.email_address || '',
           firstName: first_name || '',
@@ -73,7 +79,12 @@ export async function POST(req: Request) {
         // Update user in Convex
         const { id, email_addresses, first_name, last_name, image_url } = evt.data;
         
-        await convex.mutation('users.updateUser', {
+        if (!id) {
+          console.error('User updated event missing id');
+          break;
+        }
+        
+        await convex.mutation(api.users.updateUser, {
           clerkId: id,
           email: email_addresses?.[0]?.email_address || '',
           firstName: first_name || '',
@@ -88,7 +99,12 @@ export async function POST(req: Request) {
         // Delete user from Convex
         const { id } = evt.data;
         
-        await convex.mutation('users.deleteUser', {
+        if (!id) {
+          console.error('User deleted event missing id');
+          break;
+        }
+        
+        await convex.mutation(api.users.deleteUser, {
           clerkId: id,
         });
         

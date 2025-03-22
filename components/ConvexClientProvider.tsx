@@ -9,11 +9,8 @@ import { toast } from "@/components/ui/use-toast";
 // Use production URL if available, otherwise fallback to dev URL
 const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL || "https://next-lemur-994.convex.cloud";
 
-// Create a new ConvexReactClient instance with debug logging enabled
-const convex = new ConvexReactClient(convexUrl, {
-  // Enable verbose logging in development
-  logToConsole: process.env.NODE_ENV === "development",
-});
+// Create a new ConvexReactClient instance - safely handle server-side case
+const convex = typeof window !== 'undefined' ? new ConvexReactClient(convexUrl) : null;
 
 export function ConvexClientProvider({ children }: { children: ReactNode }) {
   const [hasLoaded, setHasLoaded] = useState(false);
@@ -27,8 +24,10 @@ export function ConvexClientProvider({ children }: { children: ReactNode }) {
     }
   }, [clerkAuth.isLoaded]);
 
-  // Handle auth errors with retries
+  // Handle auth errors with retries - ensure this runs only in browser
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     const handleError = (error: any) => {
       console.error("Convex auth error:", error);
       
@@ -47,14 +46,16 @@ export function ConvexClientProvider({ children }: { children: ReactNode }) {
       }
     };
 
-    window.addEventListener("unhandledrejection", (event) => {
+    const handleUnhandledRejection = (event: PromiseRejectionEvent) => {
       if (event.reason?.message?.includes("Failed to authenticate")) {
         handleError(event.reason);
       }
-    });
+    };
+
+    window.addEventListener("unhandledrejection", handleUnhandledRejection);
 
     return () => {
-      window.removeEventListener("unhandledrejection", handleError);
+      window.removeEventListener("unhandledrejection", handleUnhandledRejection);
     };
   }, [retryCount]);
 
@@ -64,6 +65,11 @@ export function ConvexClientProvider({ children }: { children: ReactNode }) {
         <div className="animate-spin h-8 w-8 border-4 border-blue-500 rounded-full border-t-transparent"></div>
       </div>
     );
+  }
+  
+  // Safety check for server-side rendering
+  if (!convex) {
+    return children;
   }
   
   return (

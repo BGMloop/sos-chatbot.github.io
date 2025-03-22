@@ -67,8 +67,8 @@ export default function ToolsDocsPage() {
                 <h3 className="text-lg font-medium">Expected Results</h3>
                 <p>The tool returns a structured answer with the solution to the mathematical problem.</p>
                 <ul className="list-disc pl-6 mt-2">
-                  <li>Numerical calculations (e.g., "2+2" → "4")</li>
-                  <li>Equation solving (e.g., "solve x^2 + 2x + 1 = 0" → "x = -1")</li>
+                  <li>&quot;2+2&quot; → &quot;4&quot;</li>
+                  <li>&quot;solve x^2 + 2x + 1 = 0&quot; → &quot;x = -1&quot;</li>
                   <li>Calculus operations (derivatives, integrals)</li>
                   <li>Probability calculations</li>
                   <li>Unit conversions</li>
@@ -79,10 +79,10 @@ export default function ToolsDocsPage() {
                 <h3 className="text-lg font-medium">Usage in Chat</h3>
                 <p>You can ask the chatbot to solve math problems using phrases like:</p>
                 <ul className="list-disc pl-6 mt-2">
-                  <li>"Calculate the square root of 144"</li>
-                  <li>"Solve the equation 3x + 5 = 20"</li>
-                  <li>"What is the derivative of x^2 sin(x)?"</li>
-                  <li>"Convert 5 kilometers to miles"</li>
+                  <li>&quot;Calculate the square root of 144&quot;</li>
+                  <li>&quot;Solve the equation 3x + 5 = 20&quot;</li>
+                  <li>&quot;What is the derivative of x^2 sin(x)?&quot;</li>
+                  <li>&quot;Convert 5 kilometers to miles&quot;</li>
                 </ul>
               </div>
             </CardContent>
@@ -160,9 +160,9 @@ export default function ToolsDocsPage() {
                 <h3 className="text-lg font-medium">Usage in Chat</h3>
                 <p>You can ask the chatbot about currency conversions using phrases like:</p>
                 <ul className="list-disc pl-6 mt-2">
-                  <li>"What's the exchange rate from USD to EUR?"</li>
-                  <li>"Convert 100 USD to GBP"</li>
-                  <li>"How much is 50 euros in Japanese yen?"</li>
+                  <li>&quot;What's the exchange rate from USD to EUR?&quot;</li>
+                  <li>&quot;Convert 100 USD to GBP&quot;</li>
+                  <li>&quot;How much is 50 euros in Japanese yen?&quot;</li>
                 </ul>
               </div>
             </CardContent>
@@ -215,10 +215,10 @@ export default function ToolsDocsPage() {
                 <h3 className="text-lg font-medium">Usage in Chat</h3>
                 <p>You can ask the chatbot about weather using phrases like:</p>
                 <ul className="list-disc pl-6 mt-2">
-                  <li>"What's the weather like in New York?"</li>
-                  <li>"Get me the current temperature in London"</li>
-                  <li>"Will it rain today in Tokyo?"</li>
-                  <li>"What's the forecast for Paris?"</li>
+                  <li>&quot;What's the weather like in New York?&quot;</li>
+                  <li>&quot;Get me the current temperature in London&quot;</li>
+                  <li>&quot;Will it rain today in Tokyo?&quot;</li>
+                  <li>&quot;What's the forecast for Paris?&quot;</li>
                 </ul>
               </div>
               
@@ -279,9 +279,9 @@ export default function ToolsDocsPage() {
                 <h3 className="text-lg font-medium">Usage in Chat</h3>
                 <p>You can ask the chatbot to search for news using phrases like:</p>
                 <ul className="list-disc pl-6 mt-2">
-                  <li>"Show me news about technology"</li>
-                  <li>"Find recent articles about climate change"</li>
-                  <li>"What's the latest news on artificial intelligence?"</li>
+                  <li>&quot;Show me news about technology&quot;</li>
+                  <li>&quot;Find recent articles about climate change&quot;</li>
+                  <li>&quot;What's the latest news on artificial intelligence?&quot;</li>
                 </ul>
               </div>
               
@@ -378,9 +378,9 @@ export default function ToolsDocsPage() {
                 <h3 className="text-lg font-medium">Usage in Chat</h3>
                 <p>You can ask the chatbot for news headlines using phrases like:</p>
                 <ul className="list-disc pl-6 mt-2">
-                  <li>"Show me top headlines in the US"</li>
-                  <li>"What are the latest business headlines in the UK?"</li>
-                  <li>"Get today's technology news headlines"</li>
+                  <li>&quot;Show me top headlines in the US&quot;</li>
+                  <li>&quot;What are the latest business headlines in the UK?&quot;</li>
+                  <li>&quot;Get today's technology news headlines&quot;</li>
                 </ul>
               </div>
               

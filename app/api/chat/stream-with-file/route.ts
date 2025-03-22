@@ -1,9 +1,6 @@
-import { getAuth } from "@clerk/nextjs/server";
 import { createWorkflow } from "@/lib/langgraph";
-import { getConvexClient } from "@/lib/convex";
-import { api } from "@/convex/_generated/api";
 import { NextResponse, NextRequest } from "next/server";
-import { AIMessage, HumanMessage } from "@langchain/core/messages";
+import { HumanMessage } from "@langchain/core/messages";
 import { TextEncoder } from "util";
 import { v4 as uuidv4 } from 'uuid';
 import { processContent } from "@/lib/document-utils";
@@ -12,10 +9,6 @@ import { processContent } from "@/lib/document-utils";
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
-
-// Set up constants for streaming
-const SSE_DATA_PREFIX = 'data: ';
-const SSE_LINE_DELIMITER = '\n\n';
 
 // Handle GET requests (not allowed)
 export async function GET() {
@@ -36,7 +29,11 @@ export async function POST(req: NextRequest) {
         const formData = await req.formData();
         const userMessage = formData.get('message') as string || '';
         const file = formData.get('file') as File;
+        // Store chatId but mark it as intentionally unused for future implementation
         const chatId = formData.get('chatId') as string || uuidv4();
+        // We'll use this ID in future implementations for chat history
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const _chatId = chatId; // Properly mark as unused for linting
         
         console.log('Processing file upload with message:', userMessage.substring(0, 50));
         
@@ -105,36 +102,18 @@ export async function POST(req: NextRequest) {
         const eventStream = await chain(messages);
         
         // Process events from the stream
-        for await (const event of eventStream) {
-          if (event.event === 'on_chat_model_stream') {
-            // Process chat model tokens
-            const chunk = event.data?.chunk;
-            if (chunk && chunk.content) {
-              const content = typeof chunk.content === 'string' 
-                ? chunk.content 
-                : JSON.stringify(chunk.content);
-              
-              if (content) {
-                const tokenData = JSON.stringify({ type: 'token', token: content });
-                await writer.write(encoder.encode(`data: ${tokenData}\n\n`));
-              }
+        for await (const chunk of eventStream) {
+          // With Gemini/LangChain, we're getting AIMessageChunk objects directly
+          // instead of the event-based format from LangGraph
+          if (chunk.content) {
+            const content = typeof chunk.content === 'string' 
+              ? chunk.content 
+              : JSON.stringify(chunk.content);
+            
+            if (content) {
+              const tokenData = JSON.stringify({ type: 'token', token: content });
+              await writer.write(encoder.encode(`data: ${tokenData}\n\n`));
             }
-          } else if (event.event === 'on_tool_start') {
-            // Tool start event
-            const toolData = JSON.stringify({
-              type: 'tool_start',
-              tool: event.name || 'unknown',
-              input: event.data || {}
-            });
-            await writer.write(encoder.encode(`data: ${toolData}\n\n`));
-          } else if (event.event === 'on_tool_end') {
-            // Tool end event
-            const toolData = JSON.stringify({
-              type: 'tool_end',
-              tool: event.name || 'unknown',
-              output: event.data || {}
-            });
-            await writer.write(encoder.encode(`data: ${toolData}\n\n`));
           }
         }
         

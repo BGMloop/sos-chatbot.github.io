@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { Suspense } from "react";
 import { useUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import Link from "next/link";
@@ -29,7 +28,7 @@ function SettingsLoading() {
 
 export default function SettingsPage() {
   const { user, isLoaded } = useUser();
-  const { isDarkMode, setDarkMode } = useTheme();
+  const { isDarkMode, toggleDarkMode } = useTheme();
   const [notifications, setNotifications] = useState(true);
   const [sound, setSound] = useState(true);
   
@@ -75,7 +74,7 @@ export default function SettingsPage() {
               <Switch 
                 id="dark-mode" 
                 checked={isDarkMode} 
-                onCheckedChange={setDarkMode}
+                onCheckedChange={toggleDarkMode}
               />
             </div>
           </CardContent>

@@ -24,7 +24,7 @@ export async function POST(req: Request) {
     let body: RequestBody;
     try {
       body = await req.json();
-    } catch (error) {
+    } catch (parseError) {
       return NextResponse.json(
         { error: "Invalid JSON in request body" },
         { status: 400 }
@@ -102,12 +102,12 @@ export async function POST(req: Request) {
       );
     }
     
-  } catch (error) {
-    console.error("Unexpected error analyzing calories:", error);
+  } catch (_) {
+    console.error("Unexpected error analyzing calories:", _);
     return NextResponse.json(
       { 
         error: "An unexpected error occurred", 
-        details: error instanceof Error ? error.message : "Unknown error" 
+        details: _ instanceof Error ? _.message : "Unknown error" 
       },
       { status: 500 }
     );

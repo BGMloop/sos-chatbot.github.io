@@ -31,21 +31,7 @@ type ToolStatus = {
 export default function ToolsTestPage() {
   const { user, isLoaded: isUserLoaded } = useUser();
   
-  // Show loading state while auth is loading
-  if (!isUserLoaded) {
-    return (
-      <div className="container py-10">
-        <div className="h-10 w-40 bg-gray-200 animate-pulse rounded-md mb-4"></div>
-        <div className="h-64 bg-gray-100 animate-pulse rounded-lg"></div>
-      </div>
-    );
-  }
-  
-  // Redirect if not authenticated
-  if (isUserLoaded && !user) {
-    return redirect("/");
-  }
-  
+  // Initialize all state variables unconditionally
   const [selectedTool, setSelectedTool] = useState<ToolType>("math");
   const [input, setInput] = useState("");
   const [mathInput, setMathInput] = useState("2+2");
@@ -57,11 +43,11 @@ export default function ToolsTestPage() {
   const [newsCountry, setNewsCountry] = useState("us");
   const [newsCategory, setNewsCategory] = useState("all");
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<Record<string, any> | null>(null);
+  const [result, setResult] = useState<Record<string, unknown> | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [toolStatus, setToolStatus] = useState<Record<ToolType, ToolStatus>>({} as Record<ToolType, ToolStatus>);
-
-  // Fetch tool status on load
+  
+  // Fetch tool status on load - MOVED BEFORE ANY CONDITIONALS
   useEffect(() => {
     async function loadToolStatus() {
       try {
@@ -90,8 +76,27 @@ export default function ToolsTestPage() {
       }
     }
     
-    loadToolStatus();
-  }, []);
+    // Only load tool status if user is loaded
+    if (isUserLoaded) {
+      loadToolStatus();
+    }
+  }, [isUserLoaded]); // Add isUserLoaded as a dependency
+  
+  // Redirect if not authenticated
+  if (isUserLoaded && !user) {
+    redirect("/");
+    return null; // Return null after redirect
+  }
+  
+  // Show loading state while auth is loading
+  if (!isUserLoaded) {
+    return (
+      <div className="container py-10">
+        <div className="h-10 w-40 bg-gray-200 animate-pulse rounded-md mb-4"></div>
+        <div className="h-64 bg-gray-100 animate-pulse rounded-lg"></div>
+      </div>
+    );
+  }
 
   // Handle tool execution
   const handleExecute = async () => {
@@ -101,7 +106,7 @@ export default function ToolsTestPage() {
     
     try {
       // Prepare parameters based on selected tool
-      let params: Record<string, any> = {};
+      let params: Record<string, string | number> = {};
       
       switch (selectedTool) {
         case 'math':
@@ -135,8 +140,8 @@ export default function ToolsTestPage() {
       } else {
         setError(data.error || 'An unknown error occurred');
       }
-    } catch (err: any) {
-      setError(err.message || 'Failed to execute tool');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to execute tool');
     } finally {
       setLoading(false);
     }

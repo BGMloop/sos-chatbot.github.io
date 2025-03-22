@@ -30,7 +30,6 @@ interface CalorieAnalysisResult {
 
 export default function CalorieTracker() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [imageFile, setImageFile] = useState<File | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<CalorieAnalysisResult | null>(null);
@@ -72,7 +71,7 @@ export default function CalorieTracker() {
       
       // Check if the file is an image
       if (file.type.match('image.*')) {
-        setImageFile(file);
+        setSelectedImage(file.name);
         
         const reader = new FileReader();
         reader.onloadend = () => {
@@ -92,7 +91,7 @@ export default function CalorieTracker() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setImageFile(file);
+      setSelectedImage(file.name);
       
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -120,7 +119,6 @@ export default function CalorieTracker() {
   
   const clearImage = () => {
     setSelectedImage(null);
-    setImageFile(null);
     setResult(null);
     setError(null);
     
@@ -245,7 +243,36 @@ export default function CalorieTracker() {
       fat = Math.round((totalCalories * 0.30) / 9);     // 9 cal per gram of fat
     }
     
-    // If we can't find structured data, we'll just use the raw text
+    // Try to extract individual food items
+    const foodItemsRegex = /[\n•-] ([^:]+)(?::)?\s*(?:(\d+(?:\.\d+)?)\s*(g|oz|cups?|tbsp|ml|pieces?|servings?))?\s*[-–]\s*(?:approximately |about |~)?(\d+)\s*calories/gi;
+    
+    let match;
+    while ((match = foodItemsRegex.exec(aiText)) !== null) {
+      if (match[1] && match[4]) {
+        foodItems.push({
+          name: match[1].trim(),
+          quantity: match[2] && match[3] ? `${match[2]} ${match[3]}` : "1 serving",
+          calories: parseInt(match[4], 10),
+          // Distribute macros proportionally if we have overall values
+          protein: protein > 0 ? Math.round((parseInt(match[4], 10) / totalCalories) * protein) : undefined,
+          carbs: carbs > 0 ? Math.round((parseInt(match[4], 10) / totalCalories) * carbs) : undefined,
+          fat: fat > 0 ? Math.round((parseInt(match[4], 10) / totalCalories) * fat) : undefined,
+        });
+      }
+    }
+    
+    // If we couldn't extract specific food items but have a meal name
+    if (foodItems.length === 0 && mealName && mealName !== "Food Analysis") {
+      foodItems.push({
+        name: mealName,
+        quantity: "1 serving",
+        calories: totalCalories,
+        protein: protein || undefined,
+        carbs: carbs || undefined, 
+        fat: fat || undefined
+      });
+    }
+    
     return {
       foodItems,
       totalCalories: totalCalories || 0,

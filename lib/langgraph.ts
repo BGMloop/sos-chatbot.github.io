@@ -1,17 +1,21 @@
 import {
-  AIMessage,
   BaseMessage,
-  HumanMessage,
   SystemMessage,
 } from "@langchain/core/messages";
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { ChatPromptTemplate, MessagesPlaceholder } from "@langchain/core/prompts";
 import { RunnableSequence } from "@langchain/core/runnables";
 import SYSTEM_MESSAGE from "@/constants/systemMessage";
-import { z } from "zod";
 import { getConvexClient } from "@/lib/convex";
 import { api } from "@/convex/_generated/api";
 import { LLAMA_CONFIG, formatKnowledgeContext } from "@/lib/llama-config";
+
+// Dynamic import types
+type ToolFunction = (params: Record<string, unknown>) => Promise<unknown>;
+interface ToolModule {
+  default?: ToolFunction;
+  [key: string]: unknown;
+}
 
 // Define tool schemas for reference
 const TOOL_SCHEMAS = {
@@ -25,7 +29,7 @@ const TOOL_SCHEMAS = {
 /**
  * Execute a specific tool with the given parameters
  */
-export async function executeTool(tool: string, parameters: Record<string, any>) {
+export async function executeTool(tool: string, parameters: Record<string, unknown>) {
   try {
     console.log(`Executing tool ${tool} with parameters:`, parameters);
     
@@ -37,18 +41,20 @@ export async function executeTool(tool: string, parameters: Record<string, any>)
     
     try {
       // Import the tool dynamically from wxflows directory
-      const toolModule = await import(`@/wxflows/${normalizedToolName}/index.js`);
+      const toolModule: ToolModule = await import(`@/wxflows/${normalizedToolName}/index.js`);
       
       // For ES modules, get the default export
       const toolFunction = toolModule.default;
       
       // If parameters include a specific method and it exists on the tool module, use that instead
-      let method = parameters.method;
-      if (method && typeof toolModule[method] === 'function') {
+      const method = parameters.method as string | undefined;
+      if (method && typeof method === 'string' && typeof toolModule[method] === 'function') {
         console.log(`Using specific method: ${method}`);
         // Remove method from parameters to avoid passing it to the tool function
         const { method: _, ...cleanParams } = parameters;
-        return await toolModule[method].call(toolModule, cleanParams);
+        // Cast the method to a function since we've checked it is one
+        const methodFn = toolModule[method] as Function;
+        return await methodFn.call(toolModule, cleanParams);
       }
     
       // Otherwise use the default export function
@@ -60,11 +66,11 @@ export async function executeTool(tool: string, parameters: Record<string, any>)
       }
       
       throw new Error(`Tool "${tool}" not found or is not executable`);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error(`Error attempting ES import for ${tool}:`, error);
       
       // Attempt to determine if this is a valid tool with an alternative name
-      if (error.code === 'MODULE_NOT_FOUND') {
+      if (error instanceof Error && error.message.includes('MODULE_NOT_FOUND')) {
         // Try to map common tool names to their actual implementation paths
         const toolMapping: Record<string, string> = {
           'weather': 'open_meteo_weather',
@@ -115,7 +121,7 @@ export async function executeTool(tool: string, parameters: Record<string, any>)
           } else {
             throw new Error(`Tool "${tool}" does not export a function`);
           }
-        } catch (requireError: any) {
+        } catch (requireError: unknown) {
           console.error(`CommonJS require also failed:`, requireError);
           throw error; // Throw original error
         }
@@ -123,11 +129,11 @@ export async function executeTool(tool: string, parameters: Record<string, any>)
         throw error;
       }
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error(`Error executing tool ${tool}:`, error);
     return {
-      error: error.message || `Failed to execute tool "${tool}"`,
-      details: String(error.stack || error),
+      error: error instanceof Error ? error.message : `Failed to execute tool "${tool}"`,
+      details: String(error instanceof Error ? error.stack || error : error),
       status: 'error',
       tool: tool
     };
@@ -197,4 +203,40 @@ export async function submitQuestion(messages: BaseMessage[], chatId: string, us
   });
 
   return stream;
+}
+
+/**
+ * Create a workflow for handling messages
+ */
+export async function createWorkflow() {
+  const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+
+  const model = new ChatGoogleGenerativeAI({
+    modelName: "gemini-1.5-flash",
+    apiKey,
+    maxOutputTokens: 4096,
+    temperature: 0.1,
+  });
+
+  // This is a simplified workflow that just processes messages
+  return {
+    processMessages: async function(messages: BaseMessage[]) {
+      const systemMessageText = SYSTEM_MESSAGE;
+      
+      const prompt = ChatPromptTemplate.fromMessages([
+        new SystemMessage(systemMessageText),
+        new MessagesPlaceholder("messages"),
+      ]);
+    
+      const chain = RunnableSequence.from([
+        {
+          messages: (input: BaseMessage[]) => input,
+        },
+        prompt,
+        model,
+      ]);
+    
+      return chain.stream(messages);
+    }
+  };
 }

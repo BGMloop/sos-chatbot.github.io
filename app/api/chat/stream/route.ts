@@ -77,35 +77,22 @@ export async function POST(req: Request) {
           const eventStream = await submitQuestion(langChainMessages, chatId, userId);
           
           // Process the events
-          for await (const event of eventStream) {
-            // console.log("�� Event:", event);
-
-            if (event.event === "on_chat_model_stream") {
-              const token = event.data.chunk;
-              if (token) {
-                // Access the text property from the AIMessageChunk
-                const text = token.content.at(0)?.["text"];
-                if (text) {
-                  await sendSSEMessage(writer, {
-                    type: StreamMessageType.Token,
-                    token: text,
-                  });
-                }
+          for await (const chunk of eventStream) {
+            // The stream now returns AIMessageChunk objects directly, not event objects
+            if (chunk.content) {
+              // Access the content from the AIMessageChunk
+              const content = typeof chunk.content === 'string' 
+                ? chunk.content 
+                : Array.isArray(chunk.content) && chunk.content.length > 0 
+                  ? (chunk.content[0] && 'text' in chunk.content[0] ? chunk.content[0].text : JSON.stringify(chunk.content)) 
+                  : JSON.stringify(chunk.content);
+                  
+              if (content) {
+                await sendSSEMessage(writer, {
+                  type: StreamMessageType.Token,
+                  token: content,
+                });
               }
-            } else if (event.event === "on_tool_start") {
-              await sendSSEMessage(writer, {
-                type: StreamMessageType.ToolStart,
-                tool: event.name || "unknown",
-                input: event.data.input,
-              });
-            } else if (event.event === "on_tool_end") {
-              const toolMessage = new ToolMessage(event.data.output);
-
-              await sendSSEMessage(writer, {
-                type: StreamMessageType.ToolEnd,
-                tool: toolMessage.lc_kwargs.name || "unknown",
-                output: event.data.output,
-              });
             }
           }
 

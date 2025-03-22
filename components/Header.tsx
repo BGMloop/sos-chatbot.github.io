@@ -3,7 +3,6 @@
 import { Suspense } from "react";
 import dynamic from "next/dynamic";
 import { useNavigation } from "@/lib/context/navigation";
-import { cn } from "@/lib/utils";
 import { PanelLeft, PanelRightClose } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -25,6 +24,7 @@ export function Header() {
             onClick={toggleSidebar}
             aria-label={isSidebarOpen ? "Close sidebar" : "Open sidebar"}
             className="h-8 w-8"
+            data-state={isSidebarOpen ? "open" : "closed"}
           >
             {isSidebarOpen ? (
               <PanelRightClose className="h-4 w-4" />

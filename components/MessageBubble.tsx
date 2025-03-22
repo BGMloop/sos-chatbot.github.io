@@ -1,10 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { cn } from "@/lib/utils";
-import remarkGfm from "remark-gfm";
-import rehypeRaw from "rehype-raw";
-import ReactMarkdown from "react-markdown";
 import { Button } from "@/components/ui/button";
 import { RefreshCw, Copy, Check } from "lucide-react";
 import Image from "next/image";

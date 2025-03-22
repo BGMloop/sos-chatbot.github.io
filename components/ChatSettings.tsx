@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { 
   Settings, Moon, Sun, PanelLeft, Type, ChevronLeft, 
-  ZoomIn, ZoomOut, Palette, MessageSquare
+  ZoomIn, ZoomOut, MessageSquare
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -17,10 +17,10 @@ interface ChatSettingsProps {
   buttonOnly?: boolean; // If true, only show the button without the floating indicator
 }
 
-export default function ChatSettings({ buttonOnly = false }: ChatSettingsProps) {
+export function ChatSettings({ buttonOnly = false }: ChatSettingsProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const { isDarkMode, setDarkMode, fontSize, setFontSize, textColor, setTextColor, bubbleColor, setBubbleColor } = useTheme();
-  const { isSidebarOpen, toggleSidebar } = useNavigation();
+  const { isDarkMode, toggleDarkMode, fontSize, setFontSize, textColor, setTextColor, bubbleColor, setBubbleColor } = useTheme();
+  const { isSidebarOpen, toggleSidebar, openSidebar } = useNavigation();
 
   // Color options
   const colorOptions = [
@@ -128,7 +128,7 @@ export default function ChatSettings({ buttonOnly = false }: ChatSettingsProps) 
                 </div>
                 <Switch 
                   checked={isDarkMode} 
-                  onCheckedChange={setDarkMode} 
+                  onCheckedChange={toggleDarkMode} 
                 />
               </div>
               
@@ -233,11 +233,14 @@ export default function ChatSettings({ buttonOnly = false }: ChatSettingsProps) 
             <Button onClick={() => {
               // Reset all settings to defaults
               const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-              setDarkMode(systemPrefersDark);
+              // Only toggle if current state doesn't match system preference
+              if (isDarkMode !== systemPrefersDark) {
+                toggleDarkMode();
+              }
               setFontSize(16);
               setTextColor('#000000');
               setBubbleColor('#2563eb');
-              toggleSidebar(true);
+              openSidebar();
             }}>
               Reset to Defaults
             </Button>
@@ -247,3 +250,6 @@ export default function ChatSettings({ buttonOnly = false }: ChatSettingsProps) 
     </>
   );
 } 
+
+// Add default export
+export default ChatSettings; 
