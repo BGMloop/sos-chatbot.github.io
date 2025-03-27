@@ -90,3 +90,11 @@ logs
 # Cache
 .cache/
 
+#pnpm
+pnpm-lock.yaml
+
+#package 
+package.json
+
+#middleware
+middleware.ts
