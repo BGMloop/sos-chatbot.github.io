@@ -30,7 +30,7 @@ A powerful AI chatbot built with Next.js, LangChain, and IBM Watsonx.ai Engine.
 
 - **Frontend**: Next.js 14, React, Tailwind CSS
 - **Backend**: Next.js API Routes
-- **AI**: LangChain, IBM Watsonx.ai Engine
+- **AI**: LangChain, removed IBM Watsonx.ai Engine
 - **Authentication**: Clerk
 - **Database**: Convex
 - **Deployment**: Vercel
@@ -40,7 +40,7 @@ A powerful AI chatbot built with Next.js, LangChain, and IBM Watsonx.ai Engine.
 ### Prerequisites
 
 - Node.js 18+ and pnpm
-- IBM Watsonx.ai API key
+- removed IBM Watsonx.ai API key
 - Clerk API keys
 - Convex account and API keys
 
