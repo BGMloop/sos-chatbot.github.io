@@ -34,12 +34,8 @@ A powerful AI chatbot built with Next.js, LangChain, and Google's Gemini AI.
 - **AI**: 
   - LangChain with Google's Gemini AI
   - Primary Model: Gemini 2.5 Pro Experimental (03-25)
-    - Best for coding, reasoning, and multimodal understanding
-    - Knowledge cutoff: Jan 2025
-    - Rate limits: 5 RPM (Free tier), 2 RPM (50 req/day)
   - Image Generation: Gemini 2.0 Flash (Experimental)
-    - Multimodal generation capabilities
-    - Rate limits: 10 RPM (Free tier), 10 RPM (1500 req/day)
+
 - **Authentication**: Clerk
 - **Database**: Convex
 - **Deployment**: Vercel
@@ -49,7 +45,6 @@ A powerful AI chatbot built with Next.js, LangChain, and Google's Gemini AI.
 ### Prerequisites
 
 - Node.js 18+ and pnpm
-- Google AI API key
 - Clerk API keys
 - Convex account and API keys
 
