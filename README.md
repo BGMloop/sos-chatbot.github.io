@@ -1,6 +1,6 @@
 # SOS Chatbot
 
-A powerful AI chatbot built with Next.js, LangChain, and IBM Watsonx.ai Engine.
+A powerful AI chatbot built with Next.js, LangChain, and Google's Gemini AI.
 
 ![Project Screenshot](public/images/project-screenshot.png)
 ![Chatbot Screenshot](public/images/project-chatbot-screenshot.png)
@@ -9,7 +9,8 @@ A powerful AI chatbot built with Next.js, LangChain, and IBM Watsonx.ai Engine.
 
 ## Features
 
-- 🤖 Advanced AI capabilities powered by LangChain and IBM Watsonx.ai
+- 🤖 Advanced AI capabilities powered by LangChain and Google's Gemini AI
+- 🎨 Image generation with Gemini 2.0 Flash (Experimental)
 - 🔐 Secure authentication with Clerk
 - 💾 Real-time database with Convex
 - 🎨 Modern UI with Tailwind CSS
@@ -30,7 +31,11 @@ A powerful AI chatbot built with Next.js, LangChain, and IBM Watsonx.ai Engine.
 
 - **Frontend**: Next.js 14, React, Tailwind CSS
 - **Backend**: Next.js API Routes
-- **AI**: LangChain, removed IBM Watsonx.ai Engine
+- **AI**: 
+  - LangChain with Google's Gemini AI
+  - Primary Model: Gemini 2.5 Pro Experimental (03-25)
+  - Image Generation: Gemini 2.0 Flash (Experimental)
+
 - **Authentication**: Clerk
 - **Database**: Convex
 - **Deployment**: Vercel
@@ -40,7 +45,6 @@ A powerful AI chatbot built with Next.js, LangChain, and IBM Watsonx.ai Engine.
 ### Prerequisites
 
 - Node.js 18+ and pnpm
-- removed IBM Watsonx.ai API key
 - Clerk API keys
 - Convex account and API keys
 
@@ -79,8 +83,7 @@ sos-chatbot.github.io/
 ├── lib/                   # Utility functions and shared code
 ├── public/               # Static assets
 ├── convex/               # Convex database schema and functions
-├── docs/                 # Documentation
-└── wxflows/              # IBM Watsonx.ai flows
+└── docs/                 # Documentation
 ```
 
 ## Contributing
@@ -97,17 +100,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Acknowledgments
 
-- IBM Watsonx.ai for providing the AI engine
+- Google's Gemini AI for providing the AI engine
 - LangChain for the powerful LLM framework
 - Clerk for authentication
 - Convex for the real-time database
 - The Next.js team for the amazing framework
-
-# Custome Tool example to name them
-wxflows import curl https://"".com
-wxflows deploy
-
-claude-3-7-sonnet-20250219
 
 ## UI Components
 
