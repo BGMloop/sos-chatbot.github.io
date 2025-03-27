@@ -10,6 +10,7 @@ A powerful AI chatbot built with Next.js, LangChain, and Google's Gemini AI.
 ## Features
 
 - 🤖 Advanced AI capabilities powered by LangChain and Google's Gemini AI
+- 🎨 Image generation with Gemini 2.0 Flash (Experimental)
 - 🔐 Secure authentication with Clerk
 - 💾 Real-time database with Convex
 - 🎨 Modern UI with Tailwind CSS
@@ -30,7 +31,15 @@ A powerful AI chatbot built with Next.js, LangChain, and Google's Gemini AI.
 
 - **Frontend**: Next.js 14, React, Tailwind CSS
 - **Backend**: Next.js API Routes
-- **AI**: LangChain, Google's Gemini AI
+- **AI**: 
+  - LangChain with Google's Gemini AI
+  - Primary Model: Gemini 2.5 Pro Experimental (03-25)
+    - Best for coding, reasoning, and multimodal understanding
+    - Knowledge cutoff: Jan 2025
+    - Rate limits: 5 RPM (Free tier), 2 RPM (50 req/day)
+  - Image Generation: Gemini 2.0 Flash (Experimental)
+    - Multimodal generation capabilities
+    - Rate limits: 10 RPM (Free tier), 10 RPM (1500 req/day)
 - **Authentication**: Clerk
 - **Database**: Convex
 - **Deployment**: Vercel
